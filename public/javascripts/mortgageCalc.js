@@ -1,3 +1,4 @@
+//Mortgage Calculator Javascript 
 var MortgageCalculator= function(){
 
 
@@ -6,10 +7,11 @@ var MortgageCalculator= function(){
   var years= 30;
   var fixedMonthlyPayment = 0;
   
-  
-  this.loan = $('loanAmount');
-  this.rate= $('interestRate');
-  this.months$('term');
+  console.log("hello");
+ 
+  this.loan = $('#loanAmount');
+  this.rate= $('#interestRate');
+  this.months = $('#term');
   
   this.calculate = $('#calculate');
   
@@ -22,7 +24,7 @@ var MortgageCalculator= function(){
   }
   
   this.getMonths = function(){
-    return years*12;
+    return (years*12);
   }
   
   this.getFixedMonthlyPayment = function(){
@@ -42,23 +44,29 @@ var MortgageCalculator= function(){
   }
   
   this.setFixedMonthlyPayment = function(){
-  
     var loan=this.getLoanAmount();
     var rate=this.getRate();
     var months=this.getMonths();
+    
+    
+    console.log("loan:"+loan+" rate:"+rate+" months:"+months);
+    
   
-   fixedMonthlyPayment=((loan*rate*Math.pow(1+rate,months))/(Math.pow(1+rate,months)+1));
+   fixedMonthlyPayment=
+      ((loan*rate*Math.pow(1+rate,months))/(Math.pow(1+rate,months)+1));
    
   }
   
-  this.calculate.click(function(){
-    this.setLoanAmount(parseFloat(this.loan.val()));
-    this.setInterestRate(parseFloat(this.rate.val()));
-    this.setYears(parseFloat(this.rate.val()));
-    setFixedMonthlyPayment();
-    
-    this.setYears(10);
-
+   
+  var self = this; 
+   this.calculate.click(function(){
+      self.setLoanAmount(self.loan.val());
+      self.setInterestRate(self.rate.val());
+      self.setYears(self.months.val());
+      self.setFixedMonthlyPayment();
+      console.log("fixedMP: "+fixedMonthlyPayment);
+      
+      $('#pay').html('$'+fixedMonthlyPayment.toFixed(2));
   });
 
 
