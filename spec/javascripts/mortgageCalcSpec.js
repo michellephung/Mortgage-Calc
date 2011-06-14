@@ -19,11 +19,11 @@ describe('Mortgage Calculator', function(){
   
   describe('properties', function(){
     it('has a loan amount property', function(){
-      expect(this.calc.getLoanAmount()).toEqual(100000);
+      expect(parseFloat(this.calc.getLoanAmount())).toEqual(100000);
     });
     
     it('has an interest rate property', function(){
-      expect(this.calc.getRate()).toEqual(0.02);
+      expect(parseFloat(this.calc.getRate().toFixed(4))).toEqual(0.0042);
     });
     
     it('has a term property', function(){
@@ -31,11 +31,12 @@ describe('Mortgage Calculator', function(){
     });
     
     it('has a fixed monthly payment property', function(){
-      expect(this.calc.getFixedMonthlyPayment()).toEqual(0);
+      expect(parseFloat(this.calc.getFixedMonthlyPayment().toFixed(2))).toEqual(340.46);
     });
     
   });
   
+ 
   describe('functions', function(){
     it('calculates how many months in term',function(){
       expect(this.calc.getMonths()).toEqual(360);
@@ -44,28 +45,50 @@ describe('Mortgage Calculator', function(){
     });
     
     it('calculates interest rate',function(){
-      expect(this.calc.getRate()).toEqual(0.02);
+      expect(parseFloat(this.calc.getRate().toFixed(4))).toEqual(0.0042);
       this.calc.setInterestRate(48);
       expect(this.calc.getRate()).toEqual(0.04)
       
     });
     
-    it('calculates fixed monthly payment property',function(){
-      expect(this.calc.getFixedMonthlyPayment()).toEqual(0);
+    it('calculates fixed monthly payment amount',function(){
+     expect(parseFloat(this.calc.getFixedMonthlyPayment().toFixed(2))).toEqual(340.46);
       this.calc.setLoanAmount(9);
       this.calc.setInterestRate(1200);
       this.calc.setYears(0.25);
       this.calc.setFixedMonthlyPayment();
       expect(this.calc.getFixedMonthlyPayment()).toEqual(8);
     });
-  });
-
-  
-  describe('elements',function(){
-    it('calculates payment amount when button is clicked',function(){
-   
+    
+    it('calculates payment when loan slider changes',function(){
+    
     });
+    
+    it('calculates payment when interest slider changes',function(){
+    
+    });
+    
+    it('calculates payment when term slider changes',function(){
+    
+    });
+    
   });
-
+  
+  describe('sliders', function(){
+     it('updates textbox when loan slider changes',function(){
+    
+      });
+    
+      it('updates textbox when interest slider changes',function(){
+    
+      });
+    
+      it('updates textbox when term slider changes',function(){
+    
+      });
+      
+  });
+  
+  
 
 });
