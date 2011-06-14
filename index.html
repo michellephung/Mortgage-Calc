@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+  <head>
+      <link rel="stylesheet" href="stylesheets/style.css">
+    <title></title>
+  </head>
+  <body>
+    <form>
+      <div class="inputs">
+        <span>loan amount($): <input id="loanAmount" type="number" value="100000"/></span>
+        <span>interest rate (%): <input id="interestRate" type="number" value="5"/></span>
+        <span>term (in years):   <input id="term" type="number" value="30"/></span>
+      </div>
+       <p> 
+        <input id="calculate" type="button" value="Calculate!"/>
+      </p>
+    </form>
+      
+    <div >Fixed Monthly Payment: 
+        <span class="pay">abc</span>
+    </div>
+      
+   <script type="text/javascript" src="javascripts/mortgageCalc.js"></script>
+	 <script>
+	    var calc = new MortgageCalculator();
+   </script>
+      
+    
+    
+    
+    
+    
+    
+    
+  </body>
+</html>
