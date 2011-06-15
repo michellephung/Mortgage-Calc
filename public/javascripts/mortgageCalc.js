@@ -47,6 +47,21 @@ var MortgageCalculator= function(){
   this.getTotal = function(){
     return total;
   }
+
+  this.getLoanForMonth = function(n){
+    return (loanAmount-(fixedMonthlyPayment*(n-1)));
+    
+  }
+  
+  this.getInterestForMonth = function(n){
+    return ((this.getLoanForMonth(n))*this.getRate());
+  }
+  
+  this.getPrincipleForMonth = function(n){
+    return (fixedMonthlyPayment-this.getInterestForMonth(n));
+  }
+  
+ //---------------------------------------------------------------------------------------------   
   
   this.setLoanAmount = function(loan) {
     if(loan>2000000)  loanAmount=2000000;

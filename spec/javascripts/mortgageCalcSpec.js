@@ -36,7 +36,7 @@ describe('Mortgage Calculator', function(){
     });
     
     it('has a fixed monthly payment property', function(){
-      expect(parseFloat(this.calc.getFixedMonthlyPayment().toFixed(2))).toEqual(0);
+      expect(parseFloat(this.calc.getFixedMonthlyPayment().toFixed(2))).toEqual(536.82);
     });
     
   });
@@ -57,34 +57,68 @@ describe('Mortgage Calculator', function(){
     });
     
     it('calculates fixed monthly payment amount',function(){
-     expect(parseFloat(this.calc.getFixedMonthlyPayment().toFixed(2))).toEqual(0);
+     expect(parseFloat(this.calc.getFixedMonthlyPayment().toFixed(2))).toEqual(536.82);
       this.calc.setLoanAmount(123456);
       this.calc.setInterestRate(6);
       this.calc.setYears(40);
       expect(parseFloat((this.calc.getFixedMonthlyPayment()).toFixed(0))).toEqual(679);
     });
     
+    it('calculates new loan amount for month n',function(){
+      //for one month
+      expect(parseFloat(this.calc.getLoanForMonth(1))).toEqual(100000);
+      //for two months
+      expect(parseFloat(this.calc.getLoanForMonth(2).toFixed(0))).toEqual(99463);
+      //for three months
+      expect(parseFloat(this.calc.getLoanForMonth(3).toFixed(2))).toEqual(98926.36);
+      //for four months
+      expect(parseFloat(this.calc.getLoanForMonth(4).toFixed(2))).toEqual(98389.54);
 
+    });
+    
+    it('calculates interest paid for month n',function(){
+      //for first month's payment
+      expect(parseFloat(this.calc.getInterestForMonth(1).toFixed(2))).toEqual(416.67);
+      //for 2nd month's payment
+      expect(parseFloat(this.calc.getInterestForMonth(2).toFixed(2))).toEqual(414.43);
+      //for 3rd month's payment
+      expect(parseFloat(this.calc.getInterestForMonth(3).toFixed(2))).toEqual(412.19);
+      //for 4th month's payment
+      expect(parseFloat(this.calc.getInterestForMonth(4).toFixed(2))).toEqual(409.96);
+    });
+    
+    it('calculates principle paid for month n',function(){
+      //for first month's payment
+      expect(parseFloat(this.calc.getPrincipleForMonth(1).toFixed(2))).toEqual(120.15);
+      //for 2nd month's payment
+      expect(parseFloat(this.calc.getPrincipleForMonth(2).toFixed(2))).toEqual(122.39);
+      //for 3rd month's payment
+      expect(parseFloat(this.calc.getPrincipleForMonth(3).toFixed(2))).toEqual(124.63);
+      //for 4th month's payment
+      expect(parseFloat(this.calc.getPrincipleForMonth(4).toFixed(2))).toEqual(126.87);
+
+    });
+//------------------------------------------------------------------------------------
     
   });
   
   describe('sliders', function(){
     it('calculates payment when loan slider changes',function(){
-      expect(parseFloat(this.calc.getFixedMonthlyPayment().toFixed(0))).toEqual(0);
+      expect(parseFloat(this.calc.getFixedMonthlyPayment().toFixed(0))).toEqual(537);
       this.calc.loanSlider.val(234567);
       this.calc.loanSlider.change();
       expect(parseFloat(this.calc.getFixedMonthlyPayment().toFixed(0))).toEqual(1259);
     });
     
     it('calculates payment when interest slider changes',function(){
-      expect(parseFloat(this.calc.getFixedMonthlyPayment().toFixed(0))).toEqual(0);
+      expect(parseFloat(this.calc.getFixedMonthlyPayment().toFixed(0))).toEqual(537);
       this.calc.interestSlider.val(6);
       this.calc.interestSlider.change();
       expect(parseFloat(this.calc.getFixedMonthlyPayment().toFixed(0))).toEqual(600);
     });
     
     it('calculates payment when term slider changes',function(){
-      expect(parseFloat(this.calc.getFixedMonthlyPayment().toFixed(0))).toEqual(0);
+      expect(parseFloat(this.calc.getFixedMonthlyPayment().toFixed(0))).toEqual(537);
       this.calc.termSlider.val(15);
       this.calc.termSlider.change();
       expect(parseFloat(this.calc.getFixedMonthlyPayment().toFixed(0))).toEqual(791);
@@ -118,7 +152,7 @@ describe('Mortgage Calculator', function(){
   
   describe('error checking', function(){
     it('loan amount value cannot be over 2000000',function(){
-    expect(this.calc.getLoanAmount()).toEqual(100000);
+    expect(parseFloat(this.calc.getLoanAmount())).toEqual(100000);
     this.calc.setLoanAmount(3000000);
     expect(this.calc.getLoanAmount()).toEqual(2000000);
     });
@@ -136,6 +170,11 @@ describe('Mortgage Calculator', function(){
     });
   });
   
+/*
+  describe('',function(){
+  
+  });
+*/
   
 
 });
