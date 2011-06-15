@@ -18,7 +18,10 @@ var MortgageCalculator= function(){
   this.calculate = $('#calculate');
   
   this.initialize = function(){ 
-    this.eventListener();  
+    this.eventListener();
+    this.setVariables();
+    this.refreshOnScreenVariables();
+     
   }
   
   this.getLoanAmount = function(){
@@ -39,10 +42,6 @@ var MortgageCalculator= function(){
    return fixedMonthlyPayment;  
   }
   
-
-  this.getLoanBox = function(){
-    return $('#loanBox').val();
-  }
   
   this.setLoanAmount = function(loan) {
     if(loan>2000000)  loanAmount=2000000;

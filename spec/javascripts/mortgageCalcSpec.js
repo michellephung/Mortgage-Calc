@@ -5,13 +5,13 @@ describe('Mortgage Calculator', function(){
   beforeEach(function(){
   
     
-    var loanInputDOM = $('<input id="loanAmount" type="number" value="100000"/>');
+    var loanInputDOM = $('<input id="loanBox" type="number" value="100000"/>');
     var loanSliderDOM = $('<input id="loanSlider" type="range" value="100000" min="1" max="2000000"/>');
     
-    var rateInputDOM = $('<input id="interestRate" type="number" value="5"/>');
+    var rateInputDOM = $('<input id="interestBox" type="number" value="5"/>');
     var rateSliderDOM = $('<input id="interestSlider" type="range" value="5" min="1" max="100"/>');  
     
-    var termInputDOM = $('<input id="term" type="number" value="30"/>');
+    var termInputDOM = $('<input id="termBox" type="number" value="30"/>');
     var termSliderDOM = $('<input id="termSlider" type="range" value="30" min="1" max="50"/>');
     
     $('#jasmine_content').append(loanInputDOM,loanSliderDOM, rateInputDOM, rateSliderDOM, termInputDOM, termSliderDOM);
@@ -91,22 +91,26 @@ describe('Mortgage Calculator', function(){
     
     });
     
-//----------------------------------------------------------------------------------
-
-//--------------------------------------------Here----------------------------------
-
-//----------------------------------------------------------------------------------    
+    
     it('updates text box when loan slider changes',function(){
-      expect(this.calc.loan.val()).toEqual(100000);
+      expect(parseFloat(this.calc.loan.val())).toEqual(100000);
       this.calc.loanSlider.val(234567);
       this.calc.loanSlider.change();
       expect(parseFloat(this.calc.loan.val())).toEqual(234567);
     });
   
     it('updates text box when interest slider changes',function(){
+      expect(parseFloat(this.calc.rate.val())).toEqual(5);
+      this.calc.interestSlider.val(50);
+      this.calc.interestSlider.change();
+      expect(parseFloat(this.calc.rate.val())).toEqual(50);
     });
   
     it('updates text box when term slider changes',function(){
+      expect(parseFloat(this.calc.months.val())).toEqual(30);
+      this.calc.termSlider.val(45);
+      this.calc.termSlider.change();
+      expect(parseFloat(this.calc.months.val())).toEqual(45);
     });
 
          
