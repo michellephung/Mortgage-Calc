@@ -3,13 +3,18 @@
 describe('Mortgage Calculator', function(){
 
   beforeEach(function(){
-    var loanInput = $('<input id="loanAmount" type="number" value="100000"/>');
-    var rateInput = $('<input id="interestRate" type="number" value="5"/>');
-    var termInput = $('<input id="term" type="number" value="30"/>');
-    var click = $('<input id="calculate" type="button" value="Calculate!"/>');
-    var result = $('<div >Fixed Monthly Payment:<span class="pay">abc</span></div>');
+  
     
-    $('#jasmine_content').append(loanInput, rateInput, termInput);
+    var loanInputDOM = $('<input id="loanAmount" type="number" value="100000"/>');
+    var loanSliderDOM = $('<input id="loanSlider" type="range" value="100000" min="1" max="2000000"/>');
+    
+    var rateInputDOM = $('<input id="interestRate" type="number" value="5"/>');
+    var rateSliderDOM = $('<input id="interestSlider" type="range" value="5" min="1" max="100"/>');  
+    
+    var termInputDOM = $('<input id="term" type="number" value="30"/>');
+    var termSliderDOM = $('<input id="termSlider" type="range" value="30" min="1" max="50"/>');
+    
+    $('#jasmine_content').append(loanInputDOM,loanSliderDOM, rateInputDOM, rateSliderDOM, termInputDOM, termSliderDOM);
     this.calc= new MortgageCalculator();
   });
   
@@ -31,7 +36,7 @@ describe('Mortgage Calculator', function(){
     });
     
     it('has a fixed monthly payment property', function(){
-      expect(parseFloat(this.calc.getFixedMonthlyPayment().toFixed(2))).toEqual(340.46);
+      expect(parseFloat(this.calc.getFixedMonthlyPayment().toFixed(2))).toEqual(0);
     });
     
   });
@@ -52,41 +57,79 @@ describe('Mortgage Calculator', function(){
     });
     
     it('calculates fixed monthly payment amount',function(){
-     expect(parseFloat(this.calc.getFixedMonthlyPayment().toFixed(2))).toEqual(340.46);
-      this.calc.setLoanAmount(9);
-      this.calc.setInterestRate(1200);
-      this.calc.setYears(0.25);
-      this.calc.setFixedMonthlyPayment();
-      expect(this.calc.getFixedMonthlyPayment()).toEqual(8);
+     expect(parseFloat(this.calc.getFixedMonthlyPayment().toFixed(2))).toEqual(0);
+      this.calc.setLoanAmount(123456);
+      this.calc.setInterestRate(6);
+      this.calc.setYears(40);
+      expect(parseFloat((this.calc.getFixedMonthlyPayment()).toFixed(0))).toEqual(679);
     });
     
-    it('calculates payment when loan slider changes',function(){
-    
-    });
-    
-    it('calculates payment when interest slider changes',function(){
-    
-    });
-    
-    it('calculates payment when term slider changes',function(){
-    
-    });
+
     
   });
   
   describe('sliders', function(){
-     it('updates textbox when loan slider changes',function(){
+    it('calculates payment when loan slider changes',function(){
+      expect(parseFloat(this.calc.getFixedMonthlyPayment().toFixed(0))).toEqual(0);
+      this.calc.loanSlider.val(234567);
+      this.calc.loanSlider.change();
+      expect(parseFloat(this.calc.getFixedMonthlyPayment().toFixed(0))).toEqual(1259);
+    });
     
-      });
+    it('calculates payment when interest slider changes',function(){
+      expect(parseFloat(this.calc.getFixedMonthlyPayment().toFixed(0))).toEqual(0);
+      this.calc.interestSlider.val(6);
+      this.calc.interestSlider.change();
+      expect(parseFloat(this.calc.getFixedMonthlyPayment().toFixed(0))).toEqual(600);
+    });
     
-      it('updates textbox when interest slider changes',function(){
+    it('calculates payment when term slider changes',function(){
+      expect(parseFloat(this.calc.getFixedMonthlyPayment().toFixed(0))).toEqual(0);
+      this.calc.termSlider.val(15);
+      this.calc.termSlider.change();
+      expect(parseFloat(this.calc.getFixedMonthlyPayment().toFixed(0))).toEqual(791);
     
-      });
+    });
     
-      it('updates textbox when term slider changes',function(){
+//----------------------------------------------------------------------------------
+
+//--------------------------------------------Here----------------------------------
+
+//----------------------------------------------------------------------------------    
+    it('updates text box when loan slider changes',function(){
+      expect(this.calc.loan.val()).toEqual(100000);
+      this.calc.loanSlider.val(234567);
+      this.calc.loanSlider.change();
+      expect(parseFloat(this.calc.loan.val())).toEqual(234567);
+    });
+  
+    it('updates text box when interest slider changes',function(){
+    });
+  
+    it('updates text box when term slider changes',function(){
+    });
+
+         
+  });
+  
+  describe('error checking', function(){
+    it('loan amount value cannot be over 2000000',function(){
+    expect(this.calc.getLoanAmount()).toEqual(100000);
+    this.calc.setLoanAmount(3000000);
+    expect(this.calc.getLoanAmount()).toEqual(2000000);
+    });
     
-      });
-      
+    it('rate amount value cannot be over 100',function(){
+    expect(parseFloat(this.calc.getRate().toFixed(4))).toEqual(0.0042);
+    this.calc.setInterestRate(200);
+    expect(parseFloat(this.calc.getRate().toFixed(4))).toEqual(0.0833);
+    });
+    
+    it('term amount value cannot be over 50',function(){
+    expect(this.calc.getMonths()).toEqual(360);
+    this.calc.setYears(90);
+    expect(this.calc.getMonths()).toEqual(600);
+    });
   });
   
   

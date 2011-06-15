@@ -17,17 +17,40 @@ var MortgageCalculator= function(){
   
   this.calculate = $('#calculate');
   
-  this.initialize = function(){ this.eventListener();  }
-  this.getLoanAmount = function(){return loanAmount;  }
-  this.getRate = function() { return ((0.01*interestRate)/12);  }
-  this.getMonths = function(){  return (years*12);  }
-  this.getFixedMonthlyPayment = function(){ return fixedMonthlyPayment;  }
+  this.initialize = function(){ 
+    this.eventListener();  
+  }
+  
+  this.getLoanAmount = function(){
+    return loanAmount;  
+  }
+  
+
+  
+  this.getRate = function() {
+   return ((0.01*interestRate)/12);  
+  }
+  
+  this.getMonths = function(){
+    return (years*12);  
+  }
+  
+  this.getFixedMonthlyPayment = function(){
+   return fixedMonthlyPayment;  
+  }
+  
+
+  this.getLoanBox = function(){
+    return $('#loanBox').val();
+  }
   
   this.setLoanAmount = function(loan) {
     if(loan>2000000)  loanAmount=2000000;
     else loanAmount=loan;
     this.setFixedMonthlyPayment();
     this.refreshOnScreenVariables();
+    
+
   }
   
   this.setInterestRate = function(rate){
@@ -54,9 +77,11 @@ var MortgageCalculator= function(){
       
     fixedMonthlyPayment=
       ((loan*rate*Math.pow(1+rate,months))/(Math.pow(1+rate,months)-1));
-   
+         
   }
-   
+  
+  
+     
   var self = this; 
   
   this.setVariables= function(){
@@ -79,6 +104,7 @@ var MortgageCalculator= function(){
   }
   
   
+  
   this.eventListener = function(){
     this.calculate.click(function(){
       self.setVariables();
@@ -87,6 +113,7 @@ var MortgageCalculator= function(){
       
     this.loanSlider.change(function(){
       self.setLoanAmount(parseFloat(self.loanSlider.val()));
+      
     }); 
     this.loan.change(function(){
       self.setLoanAmount(parseFloat(self.loan.val()));  
