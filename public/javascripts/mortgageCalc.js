@@ -6,6 +6,8 @@ var MortgageCalculator= function(){
   var interestRate = 5;
   var years= 30;
   var fixedMonthlyPayment = 0; 
+  var total=0;
+  var totalInterest=0;
  
   this.loan = $('#loanBox');
   this.rate= $('#interestBox');
@@ -28,7 +30,7 @@ var MortgageCalculator= function(){
     return loanAmount;  
   }
   
-
+  
   
   this.getRate = function() {
    return ((0.01*interestRate)/12);  
@@ -42,6 +44,9 @@ var MortgageCalculator= function(){
    return fixedMonthlyPayment;  
   }
   
+  this.getTotal = function(){
+    return total;
+  }
   
   this.setLoanAmount = function(loan) {
     if(loan>2000000)  loanAmount=2000000;
@@ -79,6 +84,11 @@ var MortgageCalculator= function(){
          
   }
   
+  this.setTotal = function(){
+    total=fixedMonthlyPayment*this.getMonths();
+    totalInterest=total-loanAmount;
+    
+  }
   
      
   var self = this; 
@@ -87,17 +97,24 @@ var MortgageCalculator= function(){
         self.setLoanAmount(self.loan.val());
         self.setInterestRate(self.rate.val());
         self.setYears(self.months.val());
+        self.setTotal();
   }
   
   this.refreshOnScreenVariables= function(){
       this.loan.val(loanAmount);
       this.rate.val(interestRate);
       this.months.val(years);
+       
       
       this.loanSlider.val(loanAmount);
       this.interestSlider.val(interestRate);
       this.termSlider.val(years);
-      $('#pay').html('$'+fixedMonthlyPayment.toFixed(2));  
+      
+      this.setTotal();
+      
+      $('#pay').html('$'+fixedMonthlyPayment.toFixed(2)); 
+      $('#totalPaid').html('$'+total.toFixed(2));
+      $('#interestPaid').html('$'+totalInterest.toFixed(2)); 
       
        
   }

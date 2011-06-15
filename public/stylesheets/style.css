@@ -15,3 +15,13 @@ body {
 p {
   text-align: center;
 }
+
+.onScreen {
+  //border: solid orange 1px;
+}
+.onScreen span{
+  float:right;
+  //border : solid blue 1px;
+  height:14px;
+}
+
