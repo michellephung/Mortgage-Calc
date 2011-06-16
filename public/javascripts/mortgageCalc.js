@@ -34,7 +34,7 @@ var MortgageCalculator= function(){
     return loanAmount;  
   }
   
-  
+  //hello
   
   this.getRate = function() {
    return ((0.01*interestRate)/12);  
