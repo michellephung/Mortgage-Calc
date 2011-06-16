@@ -18,8 +18,8 @@ var MortgageCalculator= function(){
   this.termSlider = $('#termSlider');
   this.calculate = $('#calculate');
   
-  this.visual = $('#visual');
-  var paper = Raphael("visual", 1000,1000); //creates a 1000 by 1000 canvas to work on
+  this.visual = $('#monthsVisual');
+  var paper = Raphael("monthsVisual", 10000,10000); //creates a 1000 by 1000 canvas to work on
   var div =5;//height   
   
   this.initialize = function(){ 
@@ -201,8 +201,8 @@ var MortgageCalculator= function(){
     var width = 1;
         
     for(var n=1; n<this.getMonths()+1; n++){      
-      var interestVisual=paper.rect(spacingH*n,spacingV,width,(interest[n]/div) );
-      var principleVisual=paper.rect(spacingH*n,(interest[n]/div)+spacingV+2,width,(principle[n]/div) );
+      var interestVisual=paper.rect(spacingH*n+50,spacingV,width,(interest[n]/div) );
+      var principleVisual=paper.rect(spacingH*n+50,(interest[n]/div)+spacingV+2,width,(principle[n]/div) );
       
         principleVisual.attr("fill", "#0000FF");  //blue
         principleVisual.attr("stroke", "none");  
@@ -211,7 +211,20 @@ var MortgageCalculator= function(){
         interestVisual.attr("stroke", "none"); 
         
         //console.log(principleVisual[n]);
+      
+        
+        
+        
     }
+    var yLabel = paper.text(10,130, "monthly payment"); 
+      yLabel.attr("font-family","arial");
+      yLabel.attr("font-size",20);
+      yLabel.rotate(-90);
+      
+    var xLabel = paper. text(112, spacingV+(interest[2]/div)+2+(principle[2]/div)+30, "time (months)")
+      xLabel.attr("font-family","arial");
+      xLabel.attr("font-size",20);
+    
   }
   this.initialize();
   this.amortizationTable();
