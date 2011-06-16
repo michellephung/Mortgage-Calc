@@ -17,7 +17,14 @@ var MortgageCalculator= function(){
   this.interestSlider =$('#interestSlider');
   this.termSlider = $('#termSlider');
   
+  this.visual = $('#visual');
+  var paper = Raphael("visual", 1000,1000); //creates a 1000 by 1000 canvas to work on
+      
+    
+    
   this.calculate = $('#calculate');
+  
+  
   
   this.initialize = function(){ 
     this.eventListener();
@@ -25,6 +32,7 @@ var MortgageCalculator= function(){
     this.refreshOnScreenVariables();
      
   }
+  
   
   this.getLoanAmount = function(){
     return loanAmount;  
@@ -48,21 +56,49 @@ var MortgageCalculator= function(){
     return total;
   }
 
+// this is wrong!
   this.getLoanForMonth = function(n){
     return (loanAmount-(fixedMonthlyPayment*(n-1)));
     
   }
+
+
+  
+ /*
+ this.getLoanForMonth = function(n){
+    if(n==1) return loanAmount;
+    else return (this.getLoanForMonth(n-1)-this.getPrincipleForMonth(n-1));
+    //does this work?
+    
+    
+  }
+*/
   
   this.getInterestForMonth = function(n){
     return ((this.getLoanForMonth(n))*this.getRate());
   }
   
   this.getPrincipleForMonth = function(n){
-    return (fixedMonthlyPayment-this.getInterestForMonth(n));
+    return (fixedMonthlyPayment-(this.getLoanForMonth(n)*this.getRate()));
   }
-  
- //---------------------------------------------------------------------------------------------   
-  
+//--------------------------------------------------------  
+  this.drawOneMonth = function(n){
+    var interestVisual= paper.rect(5,50,50,this.getInterestForMonth(n)/10 );
+    
+    console.log("fixedMOnthly:" + fixedMonthlyPayment);
+    console.log("principleformonthn:"+this.getPrincipleForMonth(n));
+    console.log("interestformonthn:"+this.getInterestForMonth(n));
+    
+    var principleVisual=paper.rect(5,(this.getInterestForMonth(n)/10)+52,50,this.getPrincipleForMonth(n)/10 );
+    
+      principleVisual.attr("fill", "#0000FF");  //blue
+      principleVisual.attr("stroke", "#000");  
+      
+      interestVisual.attr("fill", "#FF0080");   //red
+      interestVisual.attr("stroke", "#000"); //yellow
+  }
+
+
   this.setLoanAmount = function(loan) {
     if(loan>2000000)  loanAmount=2000000;
     else loanAmount=loan;
@@ -168,5 +204,10 @@ var MortgageCalculator= function(){
       
   }
   this.initialize();
+  
+//  for(int n=0, n<this.getMonths(); n++){
+    this.drawOneMonth(30);
+  //}
+  
 
 }
