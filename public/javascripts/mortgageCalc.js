@@ -16,15 +16,11 @@ var MortgageCalculator= function(){
   this.loanSlider = $('#loanSlider');
   this.interestSlider =$('#interestSlider');
   this.termSlider = $('#termSlider');
+  this.calculate = $('#calculate');
   
   this.visual = $('#visual');
   var paper = Raphael("visual", 1000,1000); //creates a 1000 by 1000 canvas to work on
-      
-    
-    
-  this.calculate = $('#calculate');
-  
-  
+  var div =5;//height   
   
   this.initialize = function(){ 
     this.eventListener();
@@ -98,6 +94,10 @@ var MortgageCalculator= function(){
     
   }
   
+  //create an amortization schedule in array form (after initialize() )
+  var loanAmt=[loanAmount];
+  var interest=[loanAmount*this.getRate()];
+  var principle=[fixedMonthlyPayment-interest[0]];
      
   var self = this; 
   
@@ -124,6 +124,21 @@ var MortgageCalculator= function(){
       $('#totalPaid').html('$'+total.toFixed(2));
       $('#interestPaid').html('$'+totalInterest.toFixed(2)); 
       
+
+      /*
+      
+    //edit elements
+      for(var n=1; n<this.getMonths()+1; n++){
+        principleVisual[n].attr("height", (principle[n]/div) );
+        interestVisual[n].attr("height",(interest[n]/div));
+      }
+*/
+    if(loanAmount!=100000 || years!=30 || interestRate!=5){
+      //redo Table
+      this.amortizationTable();
+      paper.clear();
+      this.drawMonths();
+    }
        
   }
   
@@ -159,43 +174,47 @@ var MortgageCalculator= function(){
     });
       
   }
- 
-  this.initialize();
 
-   //create an amortization schedule in array form (after initialize() )
-    var loanAmt=[loanAmount];
-    var interest=[loanAmount*this.getRate()];
-    var principle=[fixedMonthlyPayment-interest[0]];
-   
-    this.amortizationTable = function(){
-      for(var n=1; n<this.getMonths()+1; n++){
-        loanAmt.push(loanAmt[n-1]-principle[n-1]);
-        interest.push(loanAmt[n]*this.getRate());
-        principle.push(fixedMonthlyPayment-interest[n]);
-      }
-    }
-    this.amortizationTable();
-  /*show table*/
   
+  this.amortizationTable = function(){
+  
+    loanAmt=[loanAmount];
+    interest=[loanAmount*this.getRate()];
+    principle=[fixedMonthlyPayment-interest[0]];
+
+    for(var n=1; n<this.getMonths()+1; n++){
+      loanAmt.push(loanAmt[n-1]-principle[n-1]);
+      interest.push(loanAmt[n]*this.getRate());
+      principle.push(fixedMonthlyPayment-interest[n]);
+    }
+
+    
+  }
+  
+ 
+  /*clips show table
+  */ 
   
   this.drawMonths = function(){
-  
-    var spacingH = 1.5;
+    var spacingH =2;
     var spacingV = 50;
-    var width = 2;
-    var div =5;//height
+    var width = 1;
+        
     for(var n=1; n<this.getMonths()+1; n++){      
-      var interestVisual= paper.rect(spacingH*n,spacingV,width,(interest[n]/div) );
-      var principleVisual=paper.rect(spacingH*n,(interest[n]/div)+spacingV-1,width,(principle[n]/div) );
+      var interestVisual=paper.rect(spacingH*n,spacingV,width,(interest[n]/div) );
+      var principleVisual=paper.rect(spacingH*n,(interest[n]/div)+spacingV+2,width,(principle[n]/div) );
       
         principleVisual.attr("fill", "#0000FF");  //blue
-        principleVisual.attr("stroke", "#FFF");  
+        principleVisual.attr("stroke", "none");  
         
         interestVisual.attr("fill", "#FF0080");   //red
-        interestVisual.attr("stroke", "#FFF"); 
+        interestVisual.attr("stroke", "none"); 
+        
+        //console.log(principleVisual[n]);
     }
   }
-
+  this.initialize();
+  this.amortizationTable();
   this.drawMonths();
  
   

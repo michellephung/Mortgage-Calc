@@ -2,6 +2,7 @@ body {
   height: 200px;
   width:400px;
   border: solid green 1px;
+  //background-color: grey;
   
 
 }
@@ -26,3 +27,9 @@ p {
   height:14px;
 }
 
+#Ylable{
+ width:10px;
+ filter: flipH();
+ writing-mode: tb-rl; 
+ 
+}
