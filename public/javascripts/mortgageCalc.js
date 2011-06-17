@@ -195,8 +195,8 @@ var MortgageCalculator= function(){
     var width = 1;
         
     for(var n=1; n<this.getMonths()+1; n++){      
-      var interestVisualM=paper.rect(spacingH*n+50,spacingV,width,(interest[n]/div) );
-      var principleVisualM=paper.rect(spacingH*n+50,(interest[n]/div)+spacingV+2,width,(principle[n]/div) );
+      var interestVisualM=paper.rect(spacingH*n+100,spacingV,width,(interest[n]/div) );
+      var principleVisualM=paper.rect(spacingH*n+100,(interest[n]/div)+spacingV+2,width,(principle[n]/div) );
       
         principleVisualM.attr("fill", "#0000FF");  //blue
         principleVisualM.attr("stroke", "none");  
@@ -206,19 +206,46 @@ var MortgageCalculator= function(){
         
     }
     var yLabel = paper.text(10,130, "monthly payment"); 
-      yLabel.attr("font-family","arial");
+      yLabel.attr("font-family","Arial Rounded MT Bold");
       yLabel.attr("font-size",20);
       yLabel.rotate(-90);
       
     var xLabel = paper. text(112, spacingV+(interest[2]/div)+2+(principle[2]/div)+30, "time (months)")
-      xLabel.attr("font-family","arial");
+      xLabel.attr("font-family","Arial Rounded MT Bold");
       xLabel.attr("font-size",20);
       
     bottomOfMonths =  spacingV+(interest[2]/div)+2+(principle[2]/div)+30; //number of pixels down y axis 
     
-    var monthlyBox = paper.rect(2, 40, (this.getMonths()*width*spacingH)+60, bottomOfMonths+10) ;
+    var monthlyBox = paper.rect(2, 40, (this.getMonths()*width*spacingH)+115, bottomOfMonths+10) ;
       monthlyBox.attr("fill", "none");
       monthlyBox.attr("stroke", "#FFF");
+      
+    var monthPaymentIndicator =   paper.path("M70 60 L70 50 M70 50 L100 50");
+      monthPaymentIndicator.attr("fill", "#FFF");
+      monthPaymentIndicator.attr("stroke", "#FFF");
+      monthPaymentIndicator.attr("stroke-width", 1);
+    
+    var monthAmount = paper.text(70,70, "$"+fixedMonthlyPayment.toFixed(0) );
+    
+    var middlePay  = spacingV+((interest[2]/div)+(principle[2]/div))/2;
+    
+    var midMonthPaymentIndicator =   paper.path("M70 "+(middlePay+10)+" L70 "+middlePay+"m 0 0 L100 "+middlePay);
+      midMonthPaymentIndicator.attr("fill", "#FFF");
+      midMonthPaymentIndicator.attr("stroke", "#FFF");
+      midMonthPaymentIndicator.attr("stroke-width", 1);
+    
+    var midMonthAmount = paper.text(70, middlePay+18,"$"+(fixedMonthlyPayment/2).toFixed(0)); 
+    
+    
+    var termDistance = spacingH*width*this.getMonths();  
+    
+    var termIndicator = paper.path("M"+(termDistance+100)+" "+(bottomOfMonths-20)+"l0 -10");  
+      termIndicator.attr("fill", "#FFF");
+      termIndicator.attr("stroke", "#FFF");
+      termIndicator.attr("stroke-width", 1);
+     
+     var termLabel = paper.text(termDistance+100, bottomOfMonths-5, years+"\nyears"); 
+      
   }
   
   this.drawYears = function(){
@@ -255,11 +282,11 @@ var MortgageCalculator= function(){
      //labels for year axis
      
     var yLabel = paper.text(10,bottomOfMonths+170,"yearly payment"); 
-      yLabel.attr("font-family","arial");
+      yLabel.attr("font-family","Arial Rounded MT Bold");
       yLabel.attr("font-size",20);
       yLabel.rotate(-90);
     var xLabel = paper. text(102, bottomOfYear+bottomOfMonths+30, "time (years)")
-      xLabel.attr("font-family","arial");
+      xLabel.attr("font-family","Arial Rounded MT Bold");
       xLabel.attr("font-size",20);
     var monthlyBox = paper.rect(2, bottomOfMonths+70, (years*spacingH)+100, (bottomOfYear)) ;
           monthlyBox.attr("fill", "none");

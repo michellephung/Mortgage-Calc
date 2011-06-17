@@ -1,6 +1,7 @@
 body {
+  font-family: "Arial Rounded MT Bold";
   height: 200px;
-  width:400px;
+  width:500px;
   border: solid green 1px;
   background-color: grey;
   
@@ -8,6 +9,7 @@ body {
 }
 .inputs{
   border: solid red 1px;
+ 
 }
 
 .inputs span{
