@@ -21,6 +21,7 @@ var MortgageCalculator= function(){
   this.visual = $('#visual');
   var paper = Raphael("visual", 10000,10000); //creates a 1000 by 1000 canvas to work on
   var div =5;//height   
+  var bottomOfMonths;
   
   this.initialize = function(){ 
     this.eventListener();
@@ -192,14 +193,14 @@ var MortgageCalculator= function(){
     var width = 1;
         
     for(var n=1; n<this.getMonths()+1; n++){      
-      var interestVisual=paper.rect(spacingH*n+50,spacingV,width,(interest[n]/div) );
-      var principleVisual=paper.rect(spacingH*n+50,(interest[n]/div)+spacingV+2,width,(principle[n]/div) );
+      var interestVisualM=paper.rect(spacingH*n+50,spacingV,width,(interest[n]/div) );
+      var principleVisualM=paper.rect(spacingH*n+50,(interest[n]/div)+spacingV+2,width,(principle[n]/div) );
       
-        principleVisual.attr("fill", "#0000FF");  //blue
-        principleVisual.attr("stroke", "none");  
+        principleVisualM.attr("fill", "#0000FF");  //blue
+        principleVisualM.attr("stroke", "none");  
         
-        interestVisual.attr("fill", "#FF0080");   //red
-        interestVisual.attr("stroke", "none");    
+        interestVisualM.attr("fill", "#FF0080");   //red
+        interestVisualM.attr("stroke", "none");    
         
     }
     var yLabel = paper.text(10,130, "monthly payment"); 
@@ -210,11 +211,47 @@ var MortgageCalculator= function(){
     var xLabel = paper. text(112, spacingV+(interest[2]/div)+2+(principle[2]/div)+30, "time (months)")
       xLabel.attr("font-family","arial");
       xLabel.attr("font-size",20);
+      
+    bottomOfMonths =  spacingV+(interest[2]/div)+2+(principle[2]/div)+30; //number of pixels down y axis 
     
   }
+  
+  this.drawYears = function(){
+     
+     var spacingH = 15;
+     var spacingV = 50;
+     var width = 10;
+     
+     
+     for(var i=0; i<years; i++){
+       var interestYearlySum=0;
+       var principleYearlySum=0;
+      
+        for(var x=1; x<12; x++){
+          var monthlyIndex = (i*12)+x;
+          interestYearlySum+=interest[monthlyIndex];
+          principleYearlySum+=principle[monthlyIndex];
+        }
+      
+                                      //whereX, whereY, width, height
+      var interestVisualY = paper. rect(spacingH*i+50,bottomOfMonths+50,width,interestYearlySum/(div*10));
+      var principleVisualY = paper.rect(spacingH*i+50,bottomOfMonths+50+(interestYearlySum/(div*10))+2,width,principleYearlySum/(div*10));
+      
+      interestVisualY.attr("fill", "#EE9014"); //orange
+      interestVisualY.attr("stroke", "none");
+
+      principleVisualY.attr("fill", "#00BFFF"); //blue
+      principleVisualY.attr("stroke", "none"); 
+         
+     }          
+        
+    
+  }
+  
   this.initialize();
   this.amortizationTable();
   this.drawMonths();
+  this.drawYears();
  
   
 
