@@ -22,6 +22,7 @@ var MortgageCalculator= function(){
   var paper = Raphael("visual", 10000,10000); //creates a 1000 by 1000 canvas to work on
   var div =5;//height   
   var bottomOfMonths;
+  var bottomOfYear;
   
   this.initialize = function(){ 
     this.eventListener();
@@ -247,16 +248,22 @@ var MortgageCalculator= function(){
       principleVisualY.attr("fill", "#00BFFF"); //blue
       principleVisualY.attr("stroke", "none"); 
       
-      if(i==0){
-        var monthlyBox = paper.rect(2, bottomOfMonths+70, (years*spacingH)+100, bottomOfMonths+(interestYearlySum/(div*10))+(principleYearlySum/(div*10)-70)) ;
-        monthlyBox.attr("fill", "none");
-        monthlyBox.attr("stroke", "#FFF");   
-      }
+      bottomOfYear = (interestYearlySum/(div*10))+(principleYearlySum/(div*10))+100;      
+      
      }          
      
      //labels for year axis
      
-     
+    var yLabel = paper.text(10,bottomOfMonths+170,"yearly payment"); 
+      yLabel.attr("font-family","arial");
+      yLabel.attr("font-size",20);
+      yLabel.rotate(-90);
+    var xLabel = paper. text(102, bottomOfYear+bottomOfMonths+30, "time (years)")
+      xLabel.attr("font-family","arial");
+      xLabel.attr("font-size",20);
+    var monthlyBox = paper.rect(2, bottomOfMonths+70, (years*spacingH)+100, (bottomOfYear)) ;
+          monthlyBox.attr("fill", "none");
+          monthlyBox.attr("stroke", "#FFF");
      
      
      
