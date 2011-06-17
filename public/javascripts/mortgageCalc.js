@@ -18,8 +18,8 @@ var MortgageCalculator= function(){
   this.termSlider = $('#termSlider');
   this.calculate = $('#calculate');
   
-  this.visual = $('#monthsVisual');
-  var paper = Raphael("monthsVisual", 10000,10000); //creates a 1000 by 1000 canvas to work on
+  this.visual = $('#visual');
+  var paper = Raphael("visual", 10000,10000); //creates a 1000 by 1000 canvas to work on
   var div =5;//height   
   
   this.initialize = function(){ 
@@ -124,16 +124,7 @@ var MortgageCalculator= function(){
       $('#totalPaid').html('$'+total.toFixed(2));
       $('#interestPaid').html('$'+totalInterest.toFixed(2)); 
       
-
-      /*
-      
-    //edit elements
-      for(var n=1; n<this.getMonths()+1; n++){
-        principleVisual[n].attr("height", (principle[n]/div) );
-        interestVisual[n].attr("height",(interest[n]/div));
-      }
-*/
-    if(loanAmount!=100000 || years!=30 || interestRate!=5){
+   if(loanAmount!=100000 || years!=30 || interestRate!=5){
       //redo Table
       this.amortizationTable();
       paper.clear();
@@ -208,12 +199,7 @@ var MortgageCalculator= function(){
         principleVisual.attr("stroke", "none");  
         
         interestVisual.attr("fill", "#FF0080");   //red
-        interestVisual.attr("stroke", "none"); 
-        
-        //console.log(principleVisual[n]);
-      
-        
-        
+        interestVisual.attr("stroke", "none");    
         
     }
     var yLabel = paper.text(10,130, "monthly payment"); 
