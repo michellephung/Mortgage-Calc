@@ -130,6 +130,7 @@ var MortgageCalculator= function(){
       this.amortizationTable();
       paper.clear();
       this.drawMonths();
+      this.drawYears();
     }
        
   }
@@ -214,6 +215,9 @@ var MortgageCalculator= function(){
       
     bottomOfMonths =  spacingV+(interest[2]/div)+2+(principle[2]/div)+30; //number of pixels down y axis 
     
+    var monthlyBox = paper.rect(2, 40, (this.getMonths()*width*spacingH)+60, bottomOfMonths+10) ;
+      monthlyBox.attr("fill", "none");
+      monthlyBox.attr("stroke", "#FFF");
   }
   
   this.drawYears = function(){
@@ -234,16 +238,28 @@ var MortgageCalculator= function(){
         }
       
                                       //whereX, whereY, width, height
-      var interestVisualY = paper. rect(spacingH*i+50,bottomOfMonths+50,width,interestYearlySum/(div*10));
-      var principleVisualY = paper.rect(spacingH*i+50,bottomOfMonths+50+(interestYearlySum/(div*10))+2,width,principleYearlySum/(div*10));
+      var interestVisualY = paper. rect(spacingH*i+50,bottomOfMonths+100,width,interestYearlySum/(div*10));
+      var principleVisualY = paper.rect(spacingH*i+50,bottomOfMonths+100+(interestYearlySum/(div*10))+2,width,principleYearlySum/(div*10));
       
       interestVisualY.attr("fill", "#EE9014"); //orange
       interestVisualY.attr("stroke", "none");
 
       principleVisualY.attr("fill", "#00BFFF"); //blue
       principleVisualY.attr("stroke", "none"); 
-         
+      
+      if(i==0){
+        var monthlyBox = paper.rect(2, bottomOfMonths+70, (years*spacingH)+100, bottomOfMonths+(interestYearlySum/(div*10))+(principleYearlySum/(div*10)-70)) ;
+        monthlyBox.attr("fill", "none");
+        monthlyBox.attr("stroke", "#FFF");   
+      }
      }          
+     
+     //labels for year axis
+     
+     
+     
+     
+     
         
     
   }
