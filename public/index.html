@@ -9,35 +9,40 @@
     <title></title>
   </head>
   <body>
-    <form>
-      <div class="inputs">
-        <span>loan amount($):    
-          <input id="loanBox" type="number" value="100000" />
-          <input id="loanSlider" type="range" value="100000" min="1" max="2000000"/>
-        </span>
-        <span>interest rate (%): 
-          <input id="interestBox" type="number" value="5" />
-          <input id="interestSlider" type="range" value="5" min="1" max="100"/>
-        </span>
-        <span>term (in years):   
-          <input id="termBox" type="number" value="30"/>
-          <input id="termSlider" type="range" value="30" min="1" max="50"/>
-        </span>
+    <div class="boxy">
+      <form>
+        <div class="inputs">
+          <span>loan amount($):    
+            <input id="loanBox" type="number" value="100000" />
+            <input id="loanSlider" type="range" value="100000" min="1" max="2000000"/>
+          </span>
+          <span>interest rate (%): 
+            <input id="interestBox" type="number" value="5" />
+            <input id="interestSlider" type="range" value="5" min="1" max="100"/>
+          </span>
+          <span>term (in years):   
+            <input id="termBox" type="number" value="30"/>
+            <input id="termSlider" type="range" value="30" min="1" max="50"/>
+          </span>
+        </div>
+      </form>
+      <div class="onScreen"> 
+        <div >Fixed Monthly Payment:<span id="pay">$$$</span></div>
+        <div> Total Amount Paid:<span id="totalPaid">$$$</span></div>
+        <div> Total Interest Paid:<span id="interestPaid">$$$</span></div>
+     
       </div>
-      <p> <input id="calculate" type="button" value="Calculate!"/></p>
-    </form>
-    <div class="onScreen"> 
-      <div >Fixed Monthly Payment:<span id="pay">$$$</span></div>
-      <div> Total Amount Paid:<span id="totalPaid">$$$</span></div>
-      <div> Total Interest Paid:<span id="interestPaid">$$$</span></div>
     </div>
-    
+    <div id="pie"></div>
      <div id="visual"></div>
      
      
    <!-- <script type="text/javascript" scr="public/javascripts/jQ.js"></script>  -->
    
    <script type="text/javascript" src="javascripts/raphael.js"></script>	
+   <script src="javascripts/g.raphael.js" type="text/javascript" charset="utf-8"></script> 
+   <script src="javascripts/g.pie.js" type="text/javascript" charset="utf-8"></script>
+   
    
    
     <script type="text/javascript" src="javascripts/mortgageCalc.js"></script>

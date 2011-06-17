@@ -25,6 +25,10 @@ var MortgageCalculator= function(){
   var bottomOfYear;
   var topOfYear;
   
+  this.pie = $('#pie');
+  var pie= Raphael("pie");
+  
+  
   this.initialize = function(){ 
     this.eventListener();
     this.setVariables();
@@ -133,6 +137,8 @@ var MortgageCalculator= function(){
       paper.clear();
       this.drawMonths();
       this.drawYears();
+      pie.clear();
+      this.drawPie();
     }
        
   }
@@ -323,10 +329,31 @@ var MortgageCalculator= function(){
     
   }
   
+  
+this.drawPie = function(){
+  
+     var body = pie.g.piechart(300,200, 100, [loanAmount/total, totalInterest/total ], {legend: ["Principle", "Interest"], legendpos: "west"});
+     
+     var p=pie.text(470,150, "$"+total.toFixed(0));
+      p.attr("font-size", 30);
+      p.attr("font-family", "Arial Rounded MT Bold");
+      p.attr("fill", "#084B8A");
+      
+    var i=pie.text(415, 300, "$"+totalInterest.toFixed(0));
+      i.attr("font-size", 30);
+      i.attr("font-family", "Arial Rounded MT Bold");
+      i.attr("fill", "#86B404");
+                                
+              
+ 
+}
+  
+  
   this.initialize();
   this.amortizationTable();
   this.drawMonths();
   this.drawYears();
+  this.drawPie();
  
   
 

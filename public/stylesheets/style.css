@@ -1,14 +1,16 @@
 body {
   font-family: "Arial Rounded MT Bold";
   height: 200px;
-  width:450px;
-  border: solid green 1px;
+  width:800px;
+  //border: solid green 1px;
   background-color: grey;
   
 
 }
 .inputs{
   border: solid red 1px;
+  float:left;
+  width:450px;
  
 }
 
@@ -21,7 +23,9 @@ p {
 }
 
 .onScreen {
-  //border: solid orange 1px;
+  float: right;
+  border: solid orange 1px;
+  width:300px;
 }
 .onScreen span{
   float:right;
@@ -29,9 +33,6 @@ p {
   height:14px;
 }
 
-#Ylable{
- width:10px;
- filter: flipH();
- writing-mode: tb-rl; 
- 
+#pie{
+ // border: solid white 1px;
 }
