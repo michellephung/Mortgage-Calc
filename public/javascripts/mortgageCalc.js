@@ -235,7 +235,7 @@ var MortgageCalculator= function(){
       monthPaymentIndicator.attr("stroke-width", 1);
     
     var monthAmount = paper.text(70,70, "$"+fixedMonthlyPayment.toFixed(0) );
-    
+     
     var middlePay  = spacingV+((interest[2]/div)+(principle[2]/div))/2;
     
     var midMonthPaymentIndicator =   paper.path("M70 "+(middlePay+10)+" L70 "+middlePay+"m 0 0 L100 "+middlePay);
@@ -259,9 +259,9 @@ var MortgageCalculator= function(){
   
   this.drawYears = function(){
      
-     var spacingH = 15;
+     var spacingH = 24;
      var spacingV = 50;
-     var width = 10;
+     var width = 20;
      
 
      
@@ -352,12 +352,23 @@ var MortgageCalculator= function(){
   
   this.drawFixed = function(){
     //make fixed area graph
-     var spacingH = 15;
+     var spacingH = 11;
      var spacingV = 50;
      var width = 10;
-     
-
-     
+    
+     var abc = 1;
+    
+    
+    
+     var end = years*(spacingH+width)+100;
+     while(end>500){
+        
+        spacingH=spacingH-1;
+        width=width-1;
+        console.log("subtraction changes!"); 
+        end = years*spacingH+100;   
+      }
+      
      for(var i=0; i<years; i++){
        var interestYearlySum=0;
        var principleYearlySum=0;
@@ -366,24 +377,11 @@ var MortgageCalculator= function(){
           var monthlyIndex = (i*12)+x;
           interestYearlySum+=interest[monthlyIndex];
           principleYearlySum+=principle[monthlyIndex];
-        }
-      
-      var end = years*width*spacingH;
-      console.log(end);
-      
-      if(end>4500){
-        alert("you must do something here!");
-        //you will multiplying the widths and spacingH by a factor. the question is what is that number?
-        
-        
-        
-        
-        
-      }
-      
+        }      
+
                                       //whereX, whereY, width, height
-      var interestVisualY = paper. rect(spacingH*i+102,bottomOfMonths+bottomOfYear+100,width,interestYearlySum/(div*10));
-      var principleVisualY = paper.rect(spacingH*i+102,bottomOfMonths+bottomOfYear+100+(interestYearlySum/(div*10))+2,width,principleYearlySum/(div*10));
+      var interestVisualY = paper. rect(spacingH*i+102,bottomOfMonths+bottomOfYear+100,width,interestYearlySum/(div*10*abc));
+      var principleVisualY = paper.rect(spacingH*i+102,bottomOfMonths+bottomOfYear+100+(interestYearlySum/(div*10*abc))+2,width,principleYearlySum/(div*10*abc));
       
       interestVisualY.attr("fill", "#8904B1"); //purple
       interestVisualY.attr("stroke", "none");
@@ -391,19 +389,26 @@ var MortgageCalculator= function(){
       principleVisualY.attr("fill", "#01DFA5"); //blue
       principleVisualY.attr("stroke", "none"); 
       
-      bottomOfYear = (interestYearlySum/(div*10))+(principleYearlySum/(div*10))+100;      
       
-     }          
+      
+     }   
+     
+     var box = paper. rect(4,bottomOfYear+bottomOfMonths+75,500,200) ;     
+      
+
+      
+      
   }
 
   
   
+
   this.initialize();
   this.amortizationTable();
   this.drawMonths();
   this.drawYears();
   this.drawPie();
-  this. drawFixed();
+  this.drawFixed();
  
   
 
