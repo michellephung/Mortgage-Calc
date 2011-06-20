@@ -137,8 +137,10 @@ var MortgageCalculator= function(){
       paper.clear();
       this.drawMonths();
       this.drawYears();
+      this.drawFixed();
       pie.clear();
       this.drawPie();
+      
     }
        
   }
@@ -316,7 +318,7 @@ var MortgageCalculator= function(){
     var midYearPayAmount = paper.text(70,(bottomOfMonths+bottomOfYear+topOfYear+2)/2+18,"$"+(fixedMonthlyPayment*6).toFixed(0));  
       
   
-    var termDistance = spacingH*years+96;  console.log(termDistance);  
+    var termDistance = spacingH*years+96;
       
     var termIndicator = paper.path("M"+ (termDistance)+" "+(bottomOfYear+bottomOfMonths+12) +" l0 -10");  
       termIndicator.attr("fill", "#FFF");
@@ -330,7 +332,7 @@ var MortgageCalculator= function(){
   }
   
   
-this.drawPie = function(){
+  this.drawPie = function(){
   
      var body = pie.g.piechart(300,200, 100, [loanAmount/total, totalInterest/total ], {legend: ["Principle", "Interest"], legendpos: "west"});
      
@@ -346,7 +348,54 @@ this.drawPie = function(){
                                 
               
  
-}
+  }
+  
+  this.drawFixed = function(){
+    //make fixed area graph
+     var spacingH = 15;
+     var spacingV = 50;
+     var width = 10;
+     
+
+     
+     for(var i=0; i<years; i++){
+       var interestYearlySum=0;
+       var principleYearlySum=0;
+      
+        for(var x=1; x<12; x++){
+          var monthlyIndex = (i*12)+x;
+          interestYearlySum+=interest[monthlyIndex];
+          principleYearlySum+=principle[monthlyIndex];
+        }
+      
+      var end = years*width*spacingH;
+      console.log(end);
+      
+      if(end>4500){
+        alert("you must do something here!");
+        //you will multiplying the widths and spacingH by a factor. the question is what is that number?
+        
+        
+        
+        
+        
+      }
+      
+                                      //whereX, whereY, width, height
+      var interestVisualY = paper. rect(spacingH*i+102,bottomOfMonths+bottomOfYear+100,width,interestYearlySum/(div*10));
+      var principleVisualY = paper.rect(spacingH*i+102,bottomOfMonths+bottomOfYear+100+(interestYearlySum/(div*10))+2,width,principleYearlySum/(div*10));
+      
+      interestVisualY.attr("fill", "#8904B1"); //purple
+      interestVisualY.attr("stroke", "none");
+
+      principleVisualY.attr("fill", "#01DFA5"); //blue
+      principleVisualY.attr("stroke", "none"); 
+      
+      bottomOfYear = (interestYearlySum/(div*10))+(principleYearlySum/(div*10))+100;      
+      
+     }          
+  }
+
   
   
   this.initialize();
@@ -354,6 +403,7 @@ this.drawPie = function(){
   this.drawMonths();
   this.drawYears();
   this.drawPie();
+  this. drawFixed();
  
   
 
