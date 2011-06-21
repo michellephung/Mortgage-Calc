@@ -195,7 +195,7 @@ var MortgageCalculator= function(){
   /*clips show table
   */ 
   
-  this.drawMonths = function(){
+  this.drawMonths = function(){/*
     var spacingH =2;
     var spacingV = 50;
     var width = 1;
@@ -223,7 +223,7 @@ var MortgageCalculator= function(){
       
     var xLabel = paper. text(112, spacingV+(interest[2]/div)+2+(principle[2]/div)+30, "time (months)")
       xLabel.attr("font-family","arial");
-      xLabel.attr("font-size",20);
+      xLabel.attr("font-size",20);*/
     
   }
   this.initialize();
