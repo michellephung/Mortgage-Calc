@@ -18,17 +18,28 @@ var MortgageCalculator= function(){
   this.termSlider = $('#termSlider');
   this.calculate = $('#calculate');
   
-  this.visual = $('#monthlyPaymentVisual');
+  this.monthlyVisual = $('#monthlyPaymentVisual');
   var monthly = Raphael("monthlyPaymentVisual", 840, 220); 
+  
+ // this.yearlyVisual = $ ('#yearlyPaymentVisual');
+ // var yearlyVisual = Raphael("yearlyPaymentVisual", 840, 220);  
+    this.pie = $('#pie');
+  var pie= Raphael("pie");
+  
   
   
   var div =5; //height   
-  var bottomOfMonths;
+  var offsetH=100;
+  
+  
+  
+  /*
+var bottomOfMonths;
   var bottomOfYear;
   var topOfYear;
-  var offsetH=100;
-  this.pie = $('#pie');
-  var pie= Raphael("pie");
+*/
+  
+
   
   
   this.initialize = function(){ 
@@ -138,10 +149,10 @@ var MortgageCalculator= function(){
       this.amortizationTable();
       monthly.clear();
       this.drawMonths();
-      this.drawYears();
-      this.drawFixed();
-      pie.clear();
-      this.drawPie();
+     // this.drawYears();
+     // this.drawFixed();
+     // pie.clear();
+     // this.drawPie();
       
     }
        
@@ -196,19 +207,32 @@ var MortgageCalculator= function(){
     
   }
   
- 
-  /*clips show table
-  */ 
-  
+
   this.drawMonths = function(){
-    var spacingH =2;
+    var spacingH = 2;
     var spacingV = 50;
     var width = 1;
     
     
     //visual references
-    bottomOfMonths =  spacingV+((interest[2]+principle[2])/div)+2; //number of pixels down y axis 
-    topOfYear= bottomOfMonths+100; 
+    var bottomOfMonths =  spacingV+((interest[2]+principle[2])/div)+2; //number of pixels down y axis 
+   // topOfYear= bottomOfMonths+100;
+   
+   
+   
+   //resize canvas
+   this.monthly.setSize((this.getMonths()*width*spacingH)+offsetH+25),(bottomOfMonths+10)); 
+  
+   var monthlyBox = monthly.rect(2, 
+                                  40, 
+                                  (this.getMonths()*width*spacingH)+offsetH+15, 
+                                  bottomOfMonths+10) ;
+      monthlyBox.attr("fill", "none");
+      monthlyBox.attr("stroke", "#FFF");                               
+      
+   this.yAxisLabel(130,"monthly payment");
+   this.xAxisLabel(bottomOfMonths+30, "time (months)"); 
+   
         
     for(var n=1; n<this.getMonths()+1; n++){      
       var interestVisualM=monthly.rect(spacingH*n+offsetH,spacingV,width,(interest[n]/div) );
@@ -221,17 +245,7 @@ var MortgageCalculator= function(){
         interestVisualM.attr("stroke", "none");    
         
     }
-    
-    this.yAxisLabel(130,"monthly payment");
-    this.xAxisLabel(bottomOfMonths+30, "time (months)");    
-   
-    var monthlyBox = monthly.rect(2, 
-                                  40, 
-                                  (this.getMonths()*width*spacingH)+offsetH+15, 
-                                  bottomOfMonths+10) ;
-      monthlyBox.attr("fill", "none");
-      monthlyBox.attr("stroke", "#FFF");
-      
+          
     var monthPaymentIndicator =   monthly.path("M70 60 L70 50 M70 50 L100 50");
       monthPaymentIndicator.attr("fill", "#FFF");
       monthPaymentIndicator.attr("stroke", "#FFF");
@@ -422,9 +436,9 @@ var MortgageCalculator= function(){
   this.initialize();
   this.amortizationTable();
   this.drawMonths();
-  this.drawYears();
-  this.drawPie();
-  this.drawFixed();
+  //this.drawYears();
+  //this.drawPie();
+  //this.drawFixed();
  
   
 
