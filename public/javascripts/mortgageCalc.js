@@ -21,26 +21,21 @@ var MortgageCalculator= function(){
   this.monthlyVisual = $('#monthlyPaymentVisual');
   var monthly = Raphael("monthlyPaymentVisual", 840, 220); 
   
- // this.yearlyVisual = $ ('#yearlyPaymentVisual');
- // var yearlyVisual = Raphael("yearlyPaymentVisual", 840, 220);  
-    this.pie = $('#pie');
+  this.yearlyVisual = $ ('#yearlyPaymentVisual');
+  var yearlyVisual = Raphael("yearlyPaymentVisual", 850, 240);  
+  
+  this.fixedY = $ ('#fixedYealyPaymentVisual');
+  var fixedY = Raphael("fixedYealyPaymentVisual", 850, 240); 
+ 
+  this.pie = $('#pie');
   var pie= Raphael("pie");
   
   
   
   var div =5; //height   
   var offsetH=100;
-  
-  
-  
-  /*
-var bottomOfMonths;
-  var bottomOfYear;
-  var topOfYear;
-*/
-  
+  var spacingV=50;
 
-  
   
   this.initialize = function(){ 
     this.eventListener();
@@ -149,10 +144,12 @@ var bottomOfMonths;
       this.amortizationTable();
       monthly.clear();
       this.drawMonths();
-     // this.drawYears();
-     // this.drawFixed();
-     // pie.clear();
-     // this.drawPie();
+      yearlyVisual.clear();
+      this.drawYears();
+      fixedY.clear();
+      this.drawFixed();
+      pie.clear();
+      this.drawPie();
       
     }
        
@@ -210,28 +207,15 @@ var bottomOfMonths;
 
   this.drawMonths = function(){
     var spacingH = 2;
-    var spacingV = 50;
     var width = 1;
+    var middlePay  = spacingV+((interest[2]+principle[2])/div)/2;
     
-    
-    //visual references
-    var bottomOfMonths =  spacingV+((interest[2]+principle[2])/div)+2; //number of pixels down y axis 
-   // topOfYear= bottomOfMonths+100;
-   
-   
-   
-   //resize canvas
-   this.monthly.setSize((this.getMonths()*width*spacingH)+offsetH+25),(bottomOfMonths+10)); 
+    var bottomOfMonths =  spacingV+((interest[2]+principle[2])/div)+2; //number of 
+    monthly.setSize(((this.getMonths()*width*spacingH)+offsetH+25),(bottomOfMonths+80)); 
   
-   var monthlyBox = monthly.rect(2, 
-                                  40, 
-                                  (this.getMonths()*width*spacingH)+offsetH+15, 
-                                  bottomOfMonths+10) ;
-      monthlyBox.attr("fill", "none");
-      monthlyBox.attr("stroke", "#FFF");                               
-      
-   this.yAxisLabel(130,"monthly payment");
-   this.xAxisLabel(bottomOfMonths+30, "time (months)"); 
+   this.box((this.getMonths()*width*spacingH)+offsetH+15,bottomOfMonths+75, monthly);
+   this.yAxisLabel(90,"monthly payment",monthly);
+   this.xAxisLabel(bottomOfMonths+50, "time (months)", monthly); 
    
         
     for(var n=1; n<this.getMonths()+1; n++){      
@@ -245,45 +229,24 @@ var bottomOfMonths;
         interestVisualM.attr("stroke", "none");    
         
     }
-          
-    var monthPaymentIndicator =   monthly.path("M70 60 L70 50 M70 50 L100 50");
-      monthPaymentIndicator.attr("fill", "#FFF");
-      monthPaymentIndicator.attr("stroke", "#FFF");
-      monthPaymentIndicator.attr("stroke-width", 1);
-    
-    var monthAmount = monthly.text(70,70, "$"+fixedMonthlyPayment.toFixed(0) );
-     
-    var middlePay  = spacingV+((interest[2]+principle[2])/div)/2;
-    
-    var midMonthPaymentIndicator =   monthly.path("M70 "+(middlePay+10)+" L70 "+middlePay+"m 0 0 L100 "+middlePay);
-      midMonthPaymentIndicator.attr("fill", "#FFF");
-      midMonthPaymentIndicator.attr("stroke", "#FFF");
-      midMonthPaymentIndicator.attr("stroke-width", 1);
-    
-    var midMonthAmount = monthly.text(70, middlePay+18,"$"+(fixedMonthlyPayment/2).toFixed(0)); 
     
     
-    var termDistance = spacingH*width*this.getMonths();  
+    this.amountIndicator(offsetH,spacingV,monthly,fixedMonthlyPayment.toFixed(0));
+    this.amountIndicator(offsetH,middlePay, monthly,(fixedMonthlyPayment/2).toFixed(0) )
     
-    var termIndicator = monthly.path("M"+(termDistance+100)+" "+(bottomOfMonths)+"l0 10");  
-      termIndicator.attr("fill", "#FFF");
-      termIndicator.attr("stroke", "#FFF");
-      termIndicator.attr("stroke-width", 1);
-     
-     var termLabel = monthly.text(termDistance+offsetH, bottomOfMonths+20, years+"\nyears"); 
-    
-      
+    var termDistance = spacingH*width*this.getMonths()+offsetH;  
+    this.termIndicator(termDistance, bottomOfMonths, monthly);
       
   }
   
   this.drawYears = function(){
      
      var spacingH = 24;
-     var spacingV = 50;
      var width = 20;
-     var belowMonths=100;
-
-     
+     var bottomOfYear;
+     var termDistance = spacingH*years+96;
+    
+    
      for(var i=0; i<years; i++){
        var interestYearlySum=0;
        var principleYearlySum=0;
@@ -292,12 +255,10 @@ var bottomOfMonths;
           var monthlyIndex = (i*12)+x;
           interestYearlySum+=interest[monthlyIndex];
           principleYearlySum+=principle[monthlyIndex];
-        }
-      
-      
+        }      
                                       //whereX, whereY, width, height
-      var interestVisualY = monthly. rect(spacingH*i+offsetH+2,bottomOfMonths+belowMonths,width,interestYearlySum/(div*10));
-      var principleVisualY = monthly.rect(spacingH*i+offsetH+2,bottomOfMonths+belowMonths+(interestYearlySum/(div*10))+2,width,principleYearlySum/(div*10));
+      var interestVisualY = yearlyVisual. rect(spacingH*i+offsetH+2,spacingV,width,interestYearlySum/(div*10));
+      var principleVisualY = yearlyVisual.rect(spacingH*i+offsetH+2,spacingV+(interestYearlySum/(div*10))+2,width,principleYearlySum/(div*10));
       
       interestVisualY.attr("fill", "#EE9014"); //orange
       interestVisualY.attr("stroke", "none");
@@ -305,56 +266,34 @@ var bottomOfMonths;
       principleVisualY.attr("fill", "#00BFFF"); //blue
       principleVisualY.attr("stroke", "none"); 
       
-      bottomOfYear = (interestYearlySum+principleYearlySum)/(div*10)+belowMonths;      
-      
-     }          
-     
-     //labels for year axis
-    this.yAxisLabel(bottomOfMonths+170, "yearly payment");
-    this.xAxisLabel(bottomOfYear+bottomOfMonths+30,"time (years)");    
+       bottomOfYear = (interestYearlySum+principleYearlySum)/(div*10)+spacingV+2;                
+     }     
+    
+    yearlyVisual.setSize((years*width*spacingH)+offsetH+15,bottomOfYear+70 );     
+    
+    this.box((years*spacingH)+offsetH+15,bottomOfYear+65,yearlyVisual); 
+    this.yAxisLabel(80, "yearly payment",yearlyVisual );
+    this.xAxisLabel(bottomOfYear+50,"time (years)", yearlyVisual);    
 
-    var yearBox = monthly.rect(2, bottomOfMonths+70, (years*spacingH)+offsetH+20, (bottomOfYear)) ;
-          yearBox.attr("fill", "none");
-          yearBox.attr("stroke", "#FFF");
-    
-    var yearPayIndicator = monthly.path("M70 "+(topOfYear+10)+" l0 -10 m0 0 l30 0");
-      yearPayIndicator.attr("fill", "#FFF");
-      yearPayIndicator.attr("stroke", "#FFF");
-      yearPayIndicator.attr("stroke-width", 1);
-     
-    var yearPayAmount = monthly.text(70,topOfYear+18 ,"$"+(fixedMonthlyPayment*12).toFixed(0) );
-    
-    var midYearPayIndicator = monthly.path("M70 "+((bottomOfMonths+bottomOfYear+topOfYear+2)/2)+10+" l0 10 m0 -10 l30 0 ");
-      midYearPayIndicator.attr("fill", "#FFF");
-      midYearPayIndicator.attr("stroke", "#FFF");
-      midYearPayIndicator.attr("stroke-width", 1);  
-      
-    var midYearPayAmount = monthly.text(70,(bottomOfMonths+bottomOfYear+topOfYear+2)/2+18,"$"+(fixedMonthlyPayment*6).toFixed(0));  
-      
-  
-    var termDistance = spacingH*years+96;
-      
-    var termIndicator = monthly.path("M"+ (termDistance)+" "+(bottomOfYear+bottomOfMonths+12) +" l0 -10");  
-      termIndicator.attr("fill", "#FFF");
-      termIndicator.attr("stroke", "#FFF");
-      termIndicator.attr("stroke-width", 1);
-     
-    var termLabel = monthly.text(termDistance, bottomOfYear+bottomOfMonths+25, years+"\nyears"); 
-
-    
+    this. amountIndicator(offsetH,spacingV,yearlyVisual,(fixedMonthlyPayment*12).toFixed(0));  //for full amount
+    this. amountIndicator(offsetH,((bottomOfYear+spacingV+2)/2),yearlyVisual,(fixedMonthlyPayment*6).toFixed(0)); //forhalf  
+    this.termIndicator(termDistance, bottomOfYear, yearlyVisual);       
   }
   
   
   this.drawPie = function(){
   
-     var body = pie.g.piechart(300,200, 100, [loanAmount/total, totalInterest/total ], {legend: ["Principle", "Interest"], legendpos: "west"});
+     var body = pie.g.piechart(300,200, 100, 
+                [loanAmount/total, totalInterest/total ], 
+                {legend: ["Principle", "Interest"], 
+                legendpos: "west"});
      
-     var p=pie.text(470,150, "$"+total.toFixed(0));
+     var p=pie.text(470,150, "$"+parseFloat(loanAmount).toFixed(0));
       p.attr("font-size", 30);
       p.attr("font-family", "Arial Rounded MT Bold");
       p.attr("fill", "#084B8A");
       
-    var i=pie.text(415, 300, "$"+totalInterest.toFixed(0));
+     var i=pie.text(415, 300, "$"+totalInterest.toFixed(0));
       i.attr("font-size", 30);
       i.attr("font-family", "Arial Rounded MT Bold");
       i.attr("fill", "#86B404");
@@ -364,18 +303,16 @@ var bottomOfMonths;
   }
   
   this.drawFixed = function(){
-    //make fixed area graph
     
-    
+    var yearlyAmount=12*fixedMonthlyPayment; 
     var rhsOfBox = 720;
     var height =120;
-    var spacingV = 50;
      
     var width = (rhsOfBox-(years*3))/ (years);
     var spacingH=width+3;
-      
+    var h;  
    
-    var yearlyAmount=12*fixedMonthlyPayment;
+    
     
     for(var i=0; i<years; i++){
       var interestYearlySum=0;
@@ -386,20 +323,18 @@ var bottomOfMonths;
         interestYearlySum+=interest[monthlyIndex];
         principleYearlySum+=principle[monthlyIndex];
       }      
-        
       var ratioI= interestYearlySum/yearlyAmount;
-      
       var intr = (ratioI*height);
       var prin= height-intr;     
             
                                       //whereX, whereY, width, height
-      var interestVisualY = monthly. rect(spacingH*i+offsetH+2,
-                                        bottomOfMonths+bottomOfYear+100,
+      var interestVisualY = fixedY. rect(spacingH*i+offsetH+2,
+                                        spacingV,
                                         width,
                                         intr);
                                         
-      var principleVisualY = monthly.rect(spacingH*i+offsetH+2,
-                                        bottomOfMonths+bottomOfYear+100+intr+2,
+      var principleVisualY = fixedY.rect(spacingH*i+offsetH+2,
+                                        spacingV+intr+2,
                                         width,
                                         prin);
      
@@ -408,37 +343,66 @@ var bottomOfMonths;
 
       principleVisualY.attr("fill", "#01DFA5"); //blue
       principleVisualY.attr("stroke", "none"); 
-    }   
      
-    var box = monthly. rect(4,bottomOfMonths+bottomOfYear+80,rhsOfBox+offsetH+10,200) ;   
-      box.attr("stroke", "#FFF");  
-      
-    this.yAxisLabel(bottomOfMonths+bottomOfYear+170 ,"yearly payment");
-    this.xAxisLabel(bottomOfMonths+bottomOfYear+250, "time (years)");  
+      h=intr+prin+2;
+    } 
+    
+    height = spacingV+h;  
+     
+    this.box(rhsOfBox+offsetH+13, 230, fixedY);
+    this.termIndicator((years*spacingH)+offsetH-2,height,fixedY);
+    this.yAxisLabel(90 ,"yearly payment", fixedY);
+    this.xAxisLabel(210, "time (years)", fixedY);  
+    this. amountIndicator(offsetH,spacingV,fixedY,(fixedMonthlyPayment*12).toFixed(0));  //for full amount
+    this. amountIndicator(offsetH,((height+spacingV+2)/2),fixedY,(fixedMonthlyPayment*6).toFixed(0)); //forhalf  
+
   }
 
 
-  this.yAxisLabel = function(topPosition,string){
-     var yLabel = monthly.text(10,topPosition,string); 
+  this.yAxisLabel = function(topPosition,string, here){
+     var yLabel = here.text(10,topPosition,string); 
       yLabel.attr("font-family","Arial Rounded MT Bold");
       yLabel.attr("font-size",20);
       yLabel.rotate(-90);
   
   }
 
-  this.xAxisLabel = function (position, string){
-      var xLabel = monthly. text(102, position, string)
+  this.xAxisLabel = function (position, string, here){
+      var xLabel = here.text(102, position, string)
       xLabel.attr("font-family","Arial Rounded MT Bold");
       xLabel.attr("font-size",20);
   }
   
+  this.termIndicator = function(x, y, canvas){
+    var termIndicator = canvas.path("M"+ x+" "+(y+10)+" l0 -10");  
+      termIndicator.attr("fill", "#FFF");
+      termIndicator.attr("stroke", "#FFF");
+      termIndicator.attr("stroke-width", 1);
+    var labelTerm = canvas.text(x, y+25, years+"\nyears");
+  
+  };
+  
+  this.box=function(x,y, canvas){
+    var box = canvas.rect(2,0,x,y) ;
+      box.attr("fill", "none");
+      box.attr("stroke", "#FFF"); 
+  };
+  
+  this.amountIndicator=function(x,y,canvas,amount){
+    var payIndicator = canvas.path("M"+x+" "+y+" l-30 0 m0 0 l0 10");
+      payIndicator.attr("fill", "#FFF");
+      payIndicator.attr("stroke", "#FFF");
+      payIndicator.attr("stroke-width", 1);
+     
+    var payAmount = canvas.text(x-30,y+18 ,"$"+amount );
+  };
 
   this.initialize();
   this.amortizationTable();
   this.drawMonths();
-  //this.drawYears();
-  //this.drawPie();
-  //this.drawFixed();
+  this.drawYears();
+  this.drawPie();
+  this.drawFixed();
  
   
 
