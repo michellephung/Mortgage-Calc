@@ -18,6 +18,9 @@ var MortgageCalculator= function(){
   this.termSlider = $('#termSlider');
   this.calculate = $('#calculate');
   
+  this.extra =$('#extraPay');
+  this.extraInfo = $('#extraInfo');
+  
   this.monthlyVisual = $('#monthlyPaymentVisual');
   var monthly = Raphael("monthlyPaymentVisual", 840, 220); 
   
@@ -29,12 +32,13 @@ var MortgageCalculator= function(){
  
   this.pie = $('#pie');
   var pie= Raphael("pie");
+    
   
   var div =5; //height   
   var offsetH=100;    //horizontal offset from left hand side (x position where graph starts)
   var spacingV=50;    //vertical offset from top of box of graph and graph
 
-  
+ 
   this.initialize = function(){ 
     this.eventListener();   //detects changes in any of the onscreen controls (textboxes/ sliders)
     this.setVariables();
@@ -110,9 +114,18 @@ var MortgageCalculator= function(){
   var loanAmt=[loanAmount];
   var interest=[loanAmount*this.getRate()];
   var principle=[fixedMonthlyPayment-interest[0]];
+  
+  var extraPayP = [];
+  var extraPayI = [];
+  var extraPayPayment=fixedMonthlyPayment+this.extra.val();
+  var extraPayNewP =[];
+  var extraPayTotalInterest;
+  var extraPayLastMonth;
+  var extraTotal=0;
      
   var self = this; 
-  
+
+   
   this.setVariables= function(){
         self.setLoanAmount(self.loan.val());
         self.setInterestRate(self.rate.val());
@@ -132,12 +145,12 @@ var MortgageCalculator= function(){
       
       this.setTotal();
       
+      
       $('#pay').html('$'+fixedMonthlyPayment.toFixed(2)); 
       $('#totalPaid').html('$'+total.toFixed(2));
       $('#interestPaid').html('$'+totalInterest.toFixed(2)); 
       
    if(loanAmount!=100000 || years!=30 || interestRate!=5){
-      //redo Table
       this.amortizationTable();
       monthly.clear();
       this.drawMonths();
@@ -151,7 +164,6 @@ var MortgageCalculator= function(){
     }
        
   }
-  
   
   
   this.eventListener = function(){
@@ -182,12 +194,20 @@ var MortgageCalculator= function(){
     this.months.change(function(){
       self.setYears(parseFloat(self.months.val()));
     });
+    
+    this.extra.change(function(){
+      self.setExtra(parseFloat(self.extra.val()));
+    });
       
   }
 
   
   this.amortizationTable = function(){
   
+    loanAmt=[];
+    interest=[];
+    principle=[];
+    
     loanAmt=[loanAmount];
     interest=[loanAmount*this.getRate()];
     principle=[fixedMonthlyPayment-interest[0]];
@@ -199,6 +219,66 @@ var MortgageCalculator= function(){
     }
 
     
+  }
+  
+
+  
+  this.extraPayTable = function(){
+  
+   extraPayP = [];
+   extraPayI = [];
+   extraPayNewP =[];
+   
+   
+    extraPayP = [loanAmount];
+    extraPayI = [extraPayP[0]*this.getRate()];
+    extraPayNewP= [parseFloat(extraPayP[0])+parseFloat(extraPayI[0])-extraPayPayment];
+    
+    //console.log("principle:"+extraPayP[0]+"  interest:"+extraPayI[0]+"New Principle"+extraPayNewP[0]);
+    
+    extraPayTotalInterest=extraPayI[0];
+  
+    extraTotal = parseFloat(extraPayP[0])+parseFloat(extraPayI[0]);
+    
+    for(var n=1; n<this.getMonths()+1; n++){
+      extraPayP.push(extraPayNewP[n-1]);
+      extraPayI.push(extraPayP[n]*this.getRate());
+      extraPayNewP.push(extraPayP[n]+extraPayI[n]-extraPayPayment);
+      
+     
+      /*console.log("["+n+"] principle:"+extraPayP[n].toFixed(2)+
+                  "  interest:"+extraPayI[n].toFixed(2)+
+                  "  New Principle:"+extraPayNewP[n].toFixed(2));*/
+                  
+      extraPayTotalInterest+=extraPayI[n]; 
+      //console.log(extraPayTotalInterest);
+      
+    
+      
+      
+      if(extraPayNewP[n]<0) break;
+    }
+    extraTotal=extraPayTotalInterest+loanAmount;
+    extraPayLastMonth = (extraPayP.length)-1;    
+  
+  }
+  
+  this.setExtra = function(xtra){
+      if(xtra<=0) {
+        xtra=0; 
+        this.extraInfo.html("")
+        this.extra.val(0);
+        ;} 
+      
+      extraPayPayment=fixedMonthlyPayment+xtra;
+      this.extraPayTable();
+      
+      if(xtra!=0){
+        this.extraInfo.html("you <span style=\"color:yellow;\"> save $"+(totalInterest-extraPayTotalInterest).toFixed(0)+"</span> in interest<br>you're done in <span style=\"color:yellow;\">"+(extraPayLastMonth/12).toFixed(1)+" years</span>");
+        }
+        this.refreshOnScreenVariables();
+        
+      
   }
   
 
@@ -280,20 +360,32 @@ var MortgageCalculator= function(){
   
   this.drawPie = function(){
   
-     var body = pie.g.piechart(300,200, 100, 
+     var body = pie.g.piechart(230,200, 100, 
                 [loanAmount/total, totalInterest/total ], 
                 {legend: ["Principle", "Interest"], 
                 legendpos: "west"});
+                
+                console.log("big:"+loanAmount/total+"--"+totalInterest/total);
      
-     var p=pie.text(470,150, "$"+parseFloat(loanAmount).toFixed(0));
+     var p=pie.text(75,150, "$"+parseFloat(loanAmount).toFixed(0));
       p.attr("font-size", 30);
       p.attr("font-family", "Arial Rounded MT Bold");
       p.attr("fill", "#084B8A");
       
-     var i=pie.text(415, 300, "$"+totalInterest.toFixed(0));
+     var i=pie.text(100, 300, "$"+totalInterest.toFixed(0));
       i.attr("font-size", 30);
       i.attr("font-family", "Arial Rounded MT Bold");
       i.attr("fill", "#86B404");
+      
+      console.log("loan/extraTotal: "+loanAmount/extraTotal+" extraPayTotalInterest/extraTotal: "+extraPayTotalInterest/extraTotal);
+      
+      
+      var extra = pie.g.piechart(350,200,75,
+                                //[loanAmount/extraTotal,extraPayTotalInterest/extraTotal],
+                                
+                                [0.75,0.25],
+                                {legend:["principle", "interest"],
+                                lengendpos: "east"});
                                 
               
  
@@ -410,6 +502,7 @@ var MortgageCalculator= function(){
   
   
   
+  
 
   this.initialize();
   this.amortizationTable();
@@ -417,6 +510,8 @@ var MortgageCalculator= function(){
   this.drawYears();
   this.drawPie();
   this.drawFixed();
+  
+  this.extraPayTable();
  
   
 

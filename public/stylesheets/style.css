@@ -1,4 +1,5 @@
 body {
+
   font-family: "Arial Rounded MT Bold";
   height: 200px;
   width:800px;
@@ -48,4 +49,11 @@ p {
 
 #termBox{
   margin-left:19px ; 
+}
+
+.payExtra{
+  float:right;
+  border: solid yellow 1px;
+  text-align: right;
+  
 }
