@@ -19,7 +19,7 @@ p {
 }
 
 .onScreen {
-  //border: solid orange 1px;
+ border: solid orange 1px;
 }
 .onScreen span{
   float:right;

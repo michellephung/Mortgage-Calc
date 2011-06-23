@@ -1,7 +1,7 @@
 //Mortgage Calculator Spec
 
 describe('Mortgage Calculator', function(){
-
+var calc;
   beforeEach(function(){
   
     
@@ -14,14 +14,24 @@ describe('Mortgage Calculator', function(){
     var termInputDOM = $('<input id="termBox" type="number" value="30"/>');
     var termSliderDOM = $('<input id="termSlider" type="range" value="30" min="1" max="50"/>');
     
-    $('#jasmine_content').append(loanInputDOM,loanSliderDOM, rateInputDOM, rateSliderDOM, termInputDOM, termSliderDOM);
-    this.calc= new MortgageCalculator();
+   
+   $('#jasmine_content').append(loanInputDOM,loanSliderDOM, rateInputDOM, rateSliderDOM, termInputDOM, termSliderDOM);
+   this.calc= new MortgageCalculator();
+    
+       
   });
   
   afterEach(function(){
     $('#jasmine_content').html('');
   });
   
+   describe('something', function(){
+    it('is a test', function(){
+      
+    })
+  });
+
+  /*
   describe('properties', function(){
     it('has a loan amount property', function(){
       expect(parseFloat(this.calc.getLoanAmount())).toEqual(100000);
@@ -41,7 +51,7 @@ describe('Mortgage Calculator', function(){
     
   });
   
- 
+
   describe('functions', function(){
     it('calculates how many months in term',function(){
       expect(this.calc.getMonths()).toEqual(360);
