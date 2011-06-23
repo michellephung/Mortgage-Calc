@@ -18,11 +18,15 @@ var MortgageCalculator= function(){
   this.termSlider = $('#termSlider');
   this.calculate = $('#calculate');
   
+  var heightBarBox=1150;
+  var defaultWidthBarBox=1320;
+  var bottomOfChart =  1100; 
+  
   this.monthlyVisual = $('#monthlyPaymentVisual');
-  var monthly = Raphael("monthlyPaymentVisual", 840, 220); 
+  var monthly = Raphael("monthlyPaymentVisual", defaultWidthBarBox, heightBarBox); 
   
   this.yearlyVisual = $ ('#yearlyPaymentVisual');
-  var yearlyVisual = Raphael("yearlyPaymentVisual", 850, 240);  
+  var yearlyVisual = Raphael("yearlyPaymentVisual", defaultWidthBarBox, heightBarBox);  
   
   this.fixedY = $ ('#fixedYearlyPaymentVisual');
   var fixedY = Raphael("fixedYearlyPaymentVisual", 850, 240); 
@@ -30,9 +34,11 @@ var MortgageCalculator= function(){
   this.pie = $('#pie');
   var pie= Raphael("pie");
   
-  var div =5; //height   
+  var div =25; //height   
   var offsetH=100;    //horizontal offset from left hand side (x position where graph starts)
   var spacingV=50;    //vertical offset from top of box of graph and graph
+  
+  
 
   
   this.initialize = function(){ 
@@ -71,6 +77,7 @@ var MortgageCalculator= function(){
   
   this.setLoanAmount = function(loan) {
     if(loan>2000000)  loanAmount=2000000;
+    else if(loan<1000) loanAmount=1000; 
     else loanAmount=loan;
     this.setFixedMonthlyPayment();
     this.refreshOnScreenVariables();
@@ -79,7 +86,8 @@ var MortgageCalculator= function(){
   }
   
   this.setInterestRate = function(rate){
-    if(rate>15) interestRate=15;
+    if(rate>14) interestRate=14;
+    else if(rate<1) interestRate=1;
     else interestRate=rate;
     this.setFixedMonthlyPayment();
     this.refreshOnScreenVariables();
@@ -88,6 +96,7 @@ var MortgageCalculator= function(){
   
   this.setYears = function(numberOfYears){
     if(numberOfYears>50) years=50;
+    else if(numberOfYears<16)years=15;
     else years=numberOfYears;
     this.setFixedMonthlyPayment();
     this.refreshOnScreenVariables();
@@ -221,19 +230,23 @@ var MortgageCalculator= function(){
   this.drawMonths = function(){
     var spacingH = 2;
     var width = 1;
-    var middlePay  = spacingV+((interest[2]+principle[2])/div)/2;
     
-    var bottomOfMonths =  spacingV+((interest[2]+principle[2])/div)+2; 
     
-    this.resizeCanvas(((this.getMonths()*width*spacingH)+offsetH+25),bottomOfMonths+80, monthly); 
-    this.box((this.getMonths()*width*spacingH)+offsetH+15,bottomOfMonths+75, monthly);
+
+    var length =((interest[2]+principle[2])/div)+2;
+    var start = bottomOfChart-length;
+    
+    var middlePay  = start+((interest[2]+principle[2])/div)/2;
+     
+    this.box((this.getMonths()*width*spacingH)+offsetH+15,heightBarBox, monthly);
+    
     this.yAxisLabel(90,"monthly payment",monthly);
-    this.xAxisLabel(bottomOfMonths+50, "time (months)", monthly); 
+    this.xAxisLabel(1130, "time (months)", monthly); 
    
         
     for(var n=1; n<this.getMonths()+1; n++){      
-      var interestVisualM=monthly.rect(spacingH*n+offsetH,spacingV,width,(interest[n]/div) );
-      var principleVisualM=monthly.rect(spacingH*n+offsetH,(interest[n]/div)+spacingV+2,width,(principle[n]/div) );
+      var interestVisualM=monthly.rect(spacingH*n+offsetH,start,width,(interest[n]/div) );
+      var principleVisualM=monthly.rect(spacingH*n+offsetH,(interest[n]/div)+start+2,width,(principle[n]/div) );
       
         principleVisualM.attr("fill", "#0000FF");  //blue
         principleVisualM.attr("stroke", "none");  
@@ -244,11 +257,11 @@ var MortgageCalculator= function(){
     }
     
     
-    this.amountIndicator(offsetH,spacingV,monthly,fixedMonthlyPayment.toFixed(0));
+    this.amountIndicator(offsetH,start,monthly,fixedMonthlyPayment.toFixed(0));
     this.amountIndicator(offsetH,middlePay, monthly,(fixedMonthlyPayment/2).toFixed(0) )
     
     var termDistance = spacingH*width*this.getMonths()+offsetH;  
-    this.termIndicator(termDistance, bottomOfMonths, monthly);
+    this.termIndicator(termDistance, bottomOfChart, monthly);
       
   }
   
@@ -258,8 +271,8 @@ var MortgageCalculator= function(){
      var width = 20;
      var bottomOfYear;
      var termDistance = spacingH*years+96;
-    
-    
+     var start;
+
      for(var i=0; i<years; i++){
        var interestYearlySum=0;
        var principleYearlySum=0;
@@ -269,9 +282,13 @@ var MortgageCalculator= function(){
           interestYearlySum+=interest[monthlyIndex];
           principleYearlySum+=principle[monthlyIndex];
         }      
+      
+      var length=((interestYearlySum+principleYearlySum)/(div*10))+2;
+      start=bottomOfChart-length;
+      
                                       //whereX, whereY, width, height
-      var interestVisualY = yearlyVisual. rect(spacingH*i+offsetH+2,spacingV,width,interestYearlySum/(div*10));
-      var principleVisualY = yearlyVisual.rect(spacingH*i+offsetH+2,spacingV+(interestYearlySum/(div*10))+2,width,principleYearlySum/(div*10));
+      var interestVisualY = yearlyVisual. rect(spacingH*i+offsetH+2,start,width,interestYearlySum/(div*10));
+      var principleVisualY = yearlyVisual.rect(spacingH*i+offsetH+2,start+(interestYearlySum/(div*10))+2,width,principleYearlySum/(div*10));
       
       interestVisualY.attr("fill", "#EE9014"); //orange
       interestVisualY.attr("stroke", "none");
@@ -279,24 +296,24 @@ var MortgageCalculator= function(){
       principleVisualY.attr("fill", "#00BFFF"); //blue
       principleVisualY.attr("stroke", "none"); 
       
-       bottomOfYear = (interestYearlySum+principleYearlySum)/(div*10)+spacingV+2;                
+                      
      }     
     
-    this.resizeCanvas((years*width*spacingH)+offsetH+15,bottomOfYear+70, yearlyVisual);     
+    this.resizeCanvas((years*width*spacingH)+offsetH+15,heightBarBox, yearlyVisual);     
     
-    this.box((years*spacingH)+offsetH+15,bottomOfYear+65,yearlyVisual); 
+    this.box((years*spacingH)+offsetH+15,heightBarBox,yearlyVisual); 
     this.yAxisLabel(80, "yearly payment",yearlyVisual );
-    this.xAxisLabel(bottomOfYear+50,"time (years)", yearlyVisual);    
+    this.xAxisLabel(1130,"time (years)", yearlyVisual);    
 
-    this. amountIndicator(offsetH,spacingV,yearlyVisual,(fixedMonthlyPayment*12).toFixed(0));  //for full amount
-    this. amountIndicator(offsetH,((bottomOfYear+spacingV+2)/2),yearlyVisual,(fixedMonthlyPayment*6).toFixed(0)); //forhalf  
-    this.termIndicator(termDistance, bottomOfYear, yearlyVisual);       
+    this. amountIndicator(offsetH,start,yearlyVisual,(fixedMonthlyPayment*12).toFixed(0));  //for full amount
+    this. amountIndicator(offsetH,(start+bottomOfChart)/2,yearlyVisual,(fixedMonthlyPayment*6).toFixed(0)); //forhalf  
+    this.termIndicator(termDistance, bottomOfChart, yearlyVisual);       
   }
   
     
   this.drawPie = function(size){
-     /* 
-     var body = pie.g.piechart(300,400, size/(div*10000),[loanAmount/total, totalInterest/total ]);
+    
+     var body = pie.g.piechart(400,400, size/(div*1800),[loanAmount/total, totalInterest/total ]);
      var p;
      var i;
      
@@ -323,7 +340,7 @@ var MortgageCalculator= function(){
       i.attr("font-family", "Arial Rounded MT Bold");
                                 
               
-*/
+
   }
   
   
