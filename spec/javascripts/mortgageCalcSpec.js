@@ -171,6 +171,17 @@ describe('Mortgage Calculator', function(){
     this.calc.setYears(90);
     expect(this.calc.getMonths()).toEqual(600);
     });
+    
+    it('after changing interest rate amount, changing back should update fields', function(){
+      expect(parseFloat(this.calc.getInterestRate())).toEqual(5);
+      this.calc.setInterestRate(6);
+      expect(parseFloat(this.calc.getInterestRate())).toEqual(6);
+      this.calc.setInterestRate(4); 
+      expect(parseFloat(this.calc.getInterestRate())).toEqual(4);
+      this.calc.setInterestRate(5);
+      expect(parseFloat(this.calc.getInterestRate())).toEqual(5);
+    });
+    
   });
   
 /*

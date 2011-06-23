@@ -65,7 +65,9 @@ var MortgageCalculator= function(){
     return total;
   }
 
-
+  this.getInterestRate = function() {
+    return interestRate;
+  }
   
   this.setLoanAmount = function(loan) {
     if(loan>2000000)  loanAmount=2000000;
@@ -138,7 +140,7 @@ var MortgageCalculator= function(){
       $('#totalPaid').html('$'+total.toFixed(2));
       $('#interestPaid').html('$'+totalInterest.toFixed(2)); 
       
-   if(loanAmount!=100000 || years!=30 || interestRate!=5){
+   
       //redo Table
       this.amortizationTable();
       monthly.clear();
@@ -150,7 +152,7 @@ var MortgageCalculator= function(){
       pie.clear();
       this.drawPie();
       
-    }
+    
        
   }
   
@@ -174,7 +176,7 @@ var MortgageCalculator= function(){
     });   
      
     this.rate.change(function(){
-      self.setInterestRate(parseFloat(self.rate.val()));  
+     self.setInterestRate(parseFloat(self.rate.val()));
     }) ;  
      
     this.termSlider.change(function(){
@@ -293,8 +295,8 @@ var MortgageCalculator= function(){
   
   
   this.drawPie = function(){
-  
-    /* var body = pie.g.piechart(300,200, 100, 
+  /*
+     var body = pie.g.piechart(300,200, 100, 
                 [loanAmount/total, totalInterest/total ], 
                 {legend: ["Principle", "Interest"], 
                 legendpos: "west"});
@@ -308,8 +310,8 @@ var MortgageCalculator= function(){
       i.attr("font-size", 30);
       i.attr("font-family", "Arial Rounded MT Bold");
       i.attr("fill", "#86B404");
-             */                   
-              
+                                
+    */          
  
   }
   
