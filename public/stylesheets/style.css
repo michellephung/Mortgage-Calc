@@ -2,15 +2,17 @@ body {
   font-family: "Arial Rounded MT Bold";
   height: 200px;
   width:800px;
-  //border: solid green 1px;
   background-color: grey;
   
 
 }
 .inputs{
-  border: solid red 1px;
+
   float:left;
   width:450px;
+  position: fixed;
+  background-color: grey;
+  
  
 }
 
@@ -24,7 +26,6 @@ p {
 
 .onScreen {
   float: right;
-  border: solid orange 1px;
   width:300px;
 }
 .onScreen span{
@@ -49,3 +50,4 @@ p {
 #termBox{
   margin-left:19px ; 
 }
+

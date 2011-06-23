@@ -65,6 +65,8 @@ var MortgageCalculator= function(){
     return total;
   }
 
+
+  
   this.setLoanAmount = function(loan) {
     if(loan>2000000)  loanAmount=2000000;
     else loanAmount=loan;
@@ -196,12 +198,24 @@ var MortgageCalculator= function(){
       loanAmt.push(loanAmt[n-1]-principle[n-1]);
       interest.push(loanAmt[n]*this.getRate());
       principle.push(fixedMonthlyPayment-interest[n]);
+    console.log("["+n+"]loanAmt:"+loanAmt[n]+" interest:"+interest[n]+" principle:"+principle[n]);
     }
 
     
   }
   
+  this.getLoanForMonth = function(month){
+    return loanAmt[month];
+  }
+  
+  this.getInterestForMonth = function(month){
+    return interest[month];
+  }
 
+  this.getPrincipleForMonth = function(month){
+    return principle[month];
+  }
+  
   this.drawMonths = function(){
     var spacingH = 2;
     var width = 1;
@@ -280,7 +294,7 @@ var MortgageCalculator= function(){
   
   this.drawPie = function(){
   
-     var body = pie.g.piechart(300,200, 100, 
+    /* var body = pie.g.piechart(300,200, 100, 
                 [loanAmount/total, totalInterest/total ], 
                 {legend: ["Principle", "Interest"], 
                 legendpos: "west"});
@@ -294,7 +308,7 @@ var MortgageCalculator= function(){
       i.attr("font-size", 30);
       i.attr("font-family", "Arial Rounded MT Bold");
       i.attr("fill", "#86B404");
-                                
+             */                   
               
  
   }

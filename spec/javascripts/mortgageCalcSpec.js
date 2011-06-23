@@ -14,7 +14,10 @@ describe('Mortgage Calculator', function(){
     var termInputDOM = $('<input id="termBox" type="number" value="30"/>');
     var termSliderDOM = $('<input id="termSlider" type="range" value="30" min="1" max="50"/>');
     
-    $('#jasmine_content').append(loanInputDOM,loanSliderDOM, rateInputDOM, rateSliderDOM, termInputDOM, termSliderDOM);
+    var visualsDOM = $('<div id="pie"></div><div id="monthlyPaymentVisual"></div><div id="yearlyPaymentVisual"></div><div id="fixedYealyPaymentVisual"></div> ');
+    var scriptsDOM = $('<script type="text/javascript" src="javascripts/raphael.js"></script><script type="text/javascript" src="javascripts/g.raphael.js"  charset="utf-8"></script> <script type="text/javascript" src="javascripts/g.pie.js"  charset="utf-8"></script>');
+    
+    $('#jasmine_content').append(loanInputDOM,loanSliderDOM, rateInputDOM, rateSliderDOM, termInputDOM, termSliderDOM, visualsDOM, scriptsDOM);
     this.calc= new MortgageCalculator();
   });
   
@@ -66,36 +69,36 @@ describe('Mortgage Calculator', function(){
     
     it('calculates new loan amount for month n',function(){
       //for one month
-      expect(parseFloat(this.calc.getLoanForMonth(1))).toEqual(100000);
+      expect(parseFloat(this.calc.getLoanForMonth(1).toFixed(2))).toEqual(99879.85);
       //for two months
-      expect(parseFloat(this.calc.getLoanForMonth(2).toFixed(0))).toEqual(99463);
+      expect(parseFloat(this.calc.getLoanForMonth(2).toFixed(2))).toEqual(99759.19);
       //for three months
-      expect(parseFloat(this.calc.getLoanForMonth(3).toFixed(2))).toEqual(98926.36);
+      expect(parseFloat(this.calc.getLoanForMonth(3).toFixed(2))).toEqual(99638.03);
       //for four months
-      expect(parseFloat(this.calc.getLoanForMonth(4).toFixed(2))).toEqual(98389.54);
+      expect(parseFloat(this.calc.getLoanForMonth(4).toFixed(2))).toEqual(99516.37);
 
     });
     
     it('calculates interest paid for month n',function(){
       //for first month's payment
-      expect(parseFloat(this.calc.getInterestForMonth(1).toFixed(2))).toEqual(416.67);
+      expect(parseFloat(this.calc.getInterestForMonth(1).toFixed(2))).toEqual(416.17);
       //for 2nd month's payment
-      expect(parseFloat(this.calc.getInterestForMonth(2).toFixed(2))).toEqual(414.43);
+      expect(parseFloat(this.calc.getInterestForMonth(2).toFixed(2))).toEqual(415.66);
       //for 3rd month's payment
-      expect(parseFloat(this.calc.getInterestForMonth(3).toFixed(2))).toEqual(412.19);
+      expect(parseFloat(this.calc.getInterestForMonth(3).toFixed(2))).toEqual(415.16);
       //for 4th month's payment
-      expect(parseFloat(this.calc.getInterestForMonth(4).toFixed(2))).toEqual(409.96);
+      expect(parseFloat(this.calc.getInterestForMonth(4).toFixed(2))).toEqual(414.65);
     });
     
     it('calculates principle paid for month n',function(){
       //for first month's payment
-      expect(parseFloat(this.calc.getPrincipleForMonth(1).toFixed(2))).toEqual(120.15);
+      expect(parseFloat(this.calc.getPrincipleForMonth(1).toFixed(2))).toEqual(120.66);
       //for 2nd month's payment
-      expect(parseFloat(this.calc.getPrincipleForMonth(2).toFixed(2))).toEqual(122.39);
+      expect(parseFloat(this.calc.getPrincipleForMonth(2).toFixed(2))).toEqual(121.16);
       //for 3rd month's payment
-      expect(parseFloat(this.calc.getPrincipleForMonth(3).toFixed(2))).toEqual(124.63);
+      expect(parseFloat(this.calc.getPrincipleForMonth(3).toFixed(2))).toEqual(121.66);
       //for 4th month's payment
-      expect(parseFloat(this.calc.getPrincipleForMonth(4).toFixed(2))).toEqual(126.87);
+      expect(parseFloat(this.calc.getPrincipleForMonth(4).toFixed(2))).toEqual(122.17);
 
     });
 //------------------------------------------------------------------------------------

@@ -12,6 +12,9 @@
 #
 src_files:
     - public/javascripts/**/*.js
+    - public/javascripts/raphael.js
+    - public/javascripts/g.pie.js
+    - public/javascripts/g.raphael.js
 
 # stylesheets
 #
