@@ -27,11 +27,14 @@ p {
 .onScreen {
   float: right;
   width:300px;
+
 }
 .onScreen span{
+
   float:right;
   //border : solid blue 1px;
   height:14px;
+  
 }
 
 
@@ -49,5 +52,9 @@ p {
 
 #termBox{
   margin-left:19px ; 
+}
+
+#pie{
+  height:800px;
 }
 

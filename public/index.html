@@ -13,12 +13,12 @@
       <form>
         <div class="inputs">
           <span>loan amount($):    
-            <input class="txt" id="loanBox" type="number" value="100000" />
-            <input class="slider" id="loanSlider" type="range" value="100000" min="1" max="2000000"/>
+            <input class="txt" id="loanBox" type="number" value="700000" />
+            <input class="slider" id="loanSlider" type="range" value="700000" min="1" max="2000000"/>
           </span>
           <span>interest rate (%): 
             <input class="txt" id="interestBox" type="number" value="5" />
-            <input class="slider" id="interestSlider" type="range" value="5" min="1" max="100"/>
+            <input class="slider" id="interestSlider" type="range" value="5" min="1" max="15"/>
           </span>
           <span>term (in years):   
             <input class="txt"id="termBox" type="number" value="30"/>
@@ -29,19 +29,20 @@
       <div class="onScreen"> 
         <div >Fixed Monthly Payment:<span id="pay">$$$</span></div>
         <div> Total Amount Paid:<span id="totalPaid">$$$</span></div>
-       </div> 
+      </div> 
      
      
     </div>
-    
-    <div id="monthlyPaymentVisual"></div>
+    <div id="pie"></div>
+     <div id="monthlyPaymentVisual"></div>
     <div id="yearlyPaymentVisual"></div>
-    <div id="fixedYealyPaymentVisual"></div> 
-     <div id="pie"></div>
+    <div id="fixedYearlyPaymentVisual"></div> 
+     
    <!-- <script type="text/javascript" scr="public/javascripts/jQ.js"></script>  -->
    
    <script type="text/javascript" src="javascripts/raphael.js"></script>	
    <script type="text/javascript" src="javascripts/g.raphael.js"  charset="utf-8"></script> 
+
    <script type="text/javascript" src="javascripts/g.pie.js"  charset="utf-8"></script>
    
    

@@ -2,7 +2,7 @@
 var MortgageCalculator= function(){
 
 
-  var loanAmount = 100000;
+  var loanAmount = 700000;
   var interestRate = 5;
   var years= 30;
   var fixedMonthlyPayment = 0; 
@@ -24,8 +24,8 @@ var MortgageCalculator= function(){
   this.yearlyVisual = $ ('#yearlyPaymentVisual');
   var yearlyVisual = Raphael("yearlyPaymentVisual", 850, 240);  
   
-  this.fixedY = $ ('#fixedYealyPaymentVisual');
-  var fixedY = Raphael("fixedYealyPaymentVisual", 850, 240); 
+  this.fixedY = $ ('#fixedYearlyPaymentVisual');
+  var fixedY = Raphael("fixedYearlyPaymentVisual", 850, 240); 
  
   this.pie = $('#pie');
   var pie= Raphael("pie");
@@ -79,7 +79,7 @@ var MortgageCalculator= function(){
   }
   
   this.setInterestRate = function(rate){
-    if(rate>100) interestRate=100;
+    if(rate>15) interestRate=15;
     else interestRate=rate;
     this.setFixedMonthlyPayment();
     this.refreshOnScreenVariables();
@@ -150,7 +150,7 @@ var MortgageCalculator= function(){
       fixedY.clear();
       this.drawFixed();
       pie.clear();
-      this.drawPie();
+      this.drawPie(total);
       
     
        
@@ -200,7 +200,7 @@ var MortgageCalculator= function(){
       loanAmt.push(loanAmt[n-1]-principle[n-1]);
       interest.push(loanAmt[n]*this.getRate());
       principle.push(fixedMonthlyPayment-interest[n]);
-    console.log("["+n+"]loanAmt:"+loanAmt[n]+" interest:"+interest[n]+" principle:"+principle[n]);
+    //console.log("["+n+"]loanAmt:"+loanAmt[n]+" interest:"+interest[n]+" principle:"+principle[n]);
     }
 
     
@@ -293,27 +293,41 @@ var MortgageCalculator= function(){
     this.termIndicator(termDistance, bottomOfYear, yearlyVisual);       
   }
   
-  
-  this.drawPie = function(){
-  /*
-     var body = pie.g.piechart(300,200, 100, 
-                [loanAmount/total, totalInterest/total ], 
-                {legend: ["Principle", "Interest"], 
-                legendpos: "west"});
+    
+  this.drawPie = function(size){
+     /* 
+     var body = pie.g.piechart(300,400, size/(div*10000),[loanAmount/total, totalInterest/total ]);
+     var p;
+     var i;
      
-     var p=pie.text(470,150, "$"+parseFloat(loanAmount).toFixed(0));
+     if((loanAmount/total)>(totalInterest/total)){
+        p=pie.text(600,270, "Principle:\n$"+parseFloat(loanAmount).toFixed(0));
+        p.attr("fill", "#084B8A");//blue
+        
+        i=pie.text(650, 500, "Interest:\n$"+totalInterest.toFixed(0));
+        i.attr("fill", "#86B404");//green
+      }
+
+      else{
+        p=pie.text(650,270, "Principle:\n$"+parseFloat(loanAmount).toFixed(0));
+        p.attr("fill", "#86B404");//green
+        
+        i=pie.text(650, 500, "Interest:\n$"+totalInterest.toFixed(0));
+        i.attr("fill", "#084B8A");//blue
+
+        
+      }
       p.attr("font-size", 30);
       p.attr("font-family", "Arial Rounded MT Bold");
-      p.attr("fill", "#084B8A");
-      
-     var i=pie.text(415, 300, "$"+totalInterest.toFixed(0));
       i.attr("font-size", 30);
       i.attr("font-family", "Arial Rounded MT Bold");
-      i.attr("fill", "#86B404");
                                 
-    */          
- 
+              
+*/
   }
+  
+  
+  
   
   this.drawFixed = function(){
     
@@ -431,7 +445,7 @@ var MortgageCalculator= function(){
   this.amortizationTable();
   this.drawMonths();
   this.drawYears();
-  this.drawPie();
+  this.drawPie(total);
   this.drawFixed();
  
   

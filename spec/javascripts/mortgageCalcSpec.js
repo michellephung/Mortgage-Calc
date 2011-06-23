@@ -14,11 +14,13 @@ describe('Mortgage Calculator', function(){
     var termInputDOM = $('<input id="termBox" type="number" value="30"/>');
     var termSliderDOM = $('<input id="termSlider" type="range" value="30" min="1" max="50"/>');
     
-    var visualsDOM = $('<div id="pie"></div><div id="monthlyPaymentVisual"></div><div id="yearlyPaymentVisual"></div><div id="fixedYealyPaymentVisual"></div> ');
-    var scriptsDOM = $('<script type="text/javascript" src="javascripts/raphael.js"></script><script type="text/javascript" src="javascripts/g.raphael.js"  charset="utf-8"></script> <script type="text/javascript" src="javascripts/g.pie.js"  charset="utf-8"></script>');
+    var visualsDOM = $('<div id="pie"></div><div id="monthlyPaymentVisual"></div><div id="yearlyPaymentVisual"></div><div id="fixedYearlyPaymentVisual"></div> ');
     
-    $('#jasmine_content').append(loanInputDOM,loanSliderDOM, rateInputDOM, rateSliderDOM, termInputDOM, termSliderDOM, visualsDOM, scriptsDOM);
+    
+    $('#jasmine_content').append(loanInputDOM,loanSliderDOM, rateInputDOM, rateSliderDOM, termInputDOM, termSliderDOM, visualsDOM);
+    
     this.calc= new MortgageCalculator();
+    
   });
   
   afterEach(function(){
@@ -54,8 +56,8 @@ describe('Mortgage Calculator', function(){
     
     it('calculates interest rate',function(){
       expect(parseFloat(this.calc.getRate().toFixed(4))).toEqual(0.0042);
-      this.calc.setInterestRate(48);
-      expect(this.calc.getRate()).toEqual(0.04)
+      this.calc.setInterestRate(14);
+      expect(parseFloat(this.calc.getRate().toFixed(4))).toEqual(0.0117)
       
     });
     
@@ -138,9 +140,9 @@ describe('Mortgage Calculator', function(){
   
     it('updates text box when interest slider changes',function(){
       expect(parseFloat(this.calc.rate.val())).toEqual(5);
-      this.calc.interestSlider.val(50);
+      this.calc.interestSlider.val(13);
       this.calc.interestSlider.change();
-      expect(parseFloat(this.calc.rate.val())).toEqual(50);
+      expect(parseFloat(this.calc.rate.val())).toEqual(13);
     });
   
     it('updates text box when term slider changes',function(){
@@ -160,10 +162,10 @@ describe('Mortgage Calculator', function(){
     expect(this.calc.getLoanAmount()).toEqual(2000000);
     });
     
-    it('rate amount value cannot be over 100',function(){
+    it('rate amount value cannot be over 15',function(){
     expect(parseFloat(this.calc.getRate().toFixed(4))).toEqual(0.0042);
     this.calc.setInterestRate(200);
-    expect(parseFloat(this.calc.getRate().toFixed(4))).toEqual(0.0833);
+    expect(parseFloat(this.calc.getRate().toFixed(4))).toEqual(0.0125);
     });
     
     it('term amount value cannot be over 50',function(){
