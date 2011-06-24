@@ -3,7 +3,16 @@ body {
   height: 200px;
   width:800px;
   background-color: grey;
+ // border:solid red 1px;
+ 
   
+
+}
+#topBox{
+  height:100px;
+  width:900px;
+  position:fixed;
+  background-color: gray;
 
 }
 .inputs{
@@ -11,7 +20,8 @@ body {
   float:left;
   width:450px;
   position: fixed;
-  background-color: grey;
+  background:gray;
+  
   
  
 }
@@ -27,13 +37,19 @@ p {
 .onScreen {
   float: right;
   width:300px;
+ //border : solid orange 1px;
+ 
+ 
+
 
 }
 .onScreen span{
 
   float:right;
-  //border : solid blue 1px;
+ // border : solid blue 1px;
   height:14px;
+ 
+  
   
 }
 
@@ -54,7 +70,106 @@ p {
   margin-left:19px ; 
 }
 
-#pie{
-  height:800px;
+
+
+#Intro{
+  float:left;
+  //border: solid green 1px;
+  margin-left:10px;
+  margin-top: 150px;
+  width:800px;
 }
 
+.title{
+  color:#A4A4A4;
+  font-size: 22px;
+}
+
+#pieSection{
+  border: solid white 1px;
+  width: 950px;
+  margin-top: 250px;
+  margin-bottom: 10px;
+  height:700px;
+  position:absolute;
+}
+#pie{
+  height:700px;
+  width:750px;
+  // border:solid white 1px;
+}
+#explainPie{
+  display:static;
+  width:300px;
+  float:right;
+  margin-top: -150px;
+ 
+ 
+}
+
+#monthSection{
+  height: 1290px;
+  width: 840px;
+ position:absolute;
+ left:1000px;
+  margin-top: 120px;
+  
+}
+#monthlyBlurb{
+   
+   //border: solid blue 1px;
+   width: 420px;
+   margin-top: -1270px;
+   margin-left: 50px;
+    
+}
+
+
+
+#yearSection{
+  margin-top: 120px;
+  position:absolute; 
+  left:2350px;
+  
+}
+
+#yearlyBlurb{
+  margin-top: -1270px;
+  margin-left: 50px;
+  width:420px;
+}
+
+#fixedSection{
+  margin-top:1000px;
+  
+  position:absolute;
+}
+#fixedBlurb{
+ // border: solid orange 1px;
+  width: 400px;
+  margin-top: -370px;
+  margin-left: 400px;
+}
+
+#blue{
+  color: #0000FF;
+}
+
+#red{
+  color:#8A0829;
+}
+/*
+
+#mp{
+//border:dashed aqua 1px;
+  height:1400px;
+  width:3700px;
+}
+*/
+#aqua{
+  color:#00BFFF;
+}
+
+#orange{
+  color: #EE9014;
+}
