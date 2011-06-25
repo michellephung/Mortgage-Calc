@@ -276,8 +276,9 @@ var MortgageCalculator= function(){
       if(xtra!=0){
         this.extraInfo.html("you <span style=\"color:yellow;\"> save $"+(totalInterest-extraPayTotalInterest).toFixed(0)+"</span> in interest<br>you're done in <span style=\"color:yellow;\">"+(extraPayLastMonth/12).toFixed(1)+" years</span>");
         }
-        this.refreshOnScreenVariables();
-        
+       // this.refreshOnScreenVariables();
+         pie.clear();
+      this.drawPie();
       
   }
   
@@ -379,14 +380,14 @@ var MortgageCalculator= function(){
       
       console.log("loan/extraTotal: "+loanAmount/extraTotal+" extraPayTotalInterest/extraTotal: "+extraPayTotalInterest/extraTotal);
       
-      
-      var extra = pie.g.piechart(350,200,75,
-                                //[loanAmount/extraTotal,extraPayTotalInterest/extraTotal],
+      if(this.extra.val()!=0){
+        var extra = pie.g.piechart(350,200,75,
+                                [loanAmount/extraTotal,extraPayTotalInterest/extraTotal],
                                 
-                                [0.75,0.25],
+                               
                                 {legend:["principle", "interest"],
                                 lengendpos: "east"});
-                                
+      }                        
               
  
   }
