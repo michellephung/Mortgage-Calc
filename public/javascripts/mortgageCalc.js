@@ -49,6 +49,7 @@ var MortgageCalculator= function(){
  this.fixedSection=$('#fixedSection'); 
  var monthLength;
 
+
   
   this.initialize = function(){ 
     this.eventListener();   //detects changes in any of the onscreen controls (textboxes/ sliders)
@@ -209,7 +210,9 @@ var MortgageCalculator= function(){
       
   }
 
-  
+
+        
+
   this.amortizationTable = function(){
   
     loanAmt=[loanAmount];
