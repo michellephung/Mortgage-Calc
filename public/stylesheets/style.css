@@ -3,16 +3,17 @@ body {
   height: 200px;
   width:800px;
   background-color: grey;
- // border:solid red 1px;
+ //border:solid red 1px;
  
   
 
 }
 #topBox{
-  height:100px;
+  height:90px;
   width:900px;
   position:fixed;
   background-color: gray;
+
 
 }
 .inputs{
@@ -21,9 +22,7 @@ body {
   width:450px;
   position: fixed;
   background:gray;
-  
-  
- 
+  //border : solid orange 1px; 
 }
 
 .inputs span{
@@ -39,18 +38,13 @@ p {
   width:300px;
  //border : solid orange 1px;
  
- 
-
-
 }
-.onScreen span{
+.calc{
 
   float:right;
  // border : solid blue 1px;
   height:14px;
- 
-  
-  
+   
 }
 
 
@@ -72,7 +66,7 @@ p {
 
 
 
-#Intro{
+#instructions{
   float:left;
   //border: solid green 1px;
   margin-left:10px;
@@ -95,8 +89,7 @@ p {
 }
 #pie{
   height:700px;
-  width:750px;
-  // border:solid white 1px;
+  width:950px;
 }
 #explainPie{
   display:static;
@@ -108,19 +101,19 @@ p {
 }
 
 #monthSection{
-  height: 1290px;
-  width: 840px;
+ height: 1290px;
+ width: 840px;
  position:absolute;
  left:1000px;
-  margin-top: 120px;
+ margin-top: 120px;
   
 }
 #monthlyBlurb{
    
-   //border: solid blue 1px;
-   width: 420px;
-   margin-top: -1270px;
-   margin-left: 50px;
+ //border: solid blue 1px;
+ width: 420px;
+ margin-top: -1270px;
+ margin-left: 50px;
     
 }
 
@@ -128,24 +121,24 @@ p {
 
 #yearSection{
   margin-top: 120px;
+  width: 200px;
   position:absolute; 
   left:2350px;
-  
+    
 }
 
 #yearlyBlurb{
   margin-top: -1270px;
   margin-left: 50px;
-  width:420px;
-}
+  width:420px;}
 
 #fixedSection{
   margin-top:1000px;
   
+  width: 970px;
   position:absolute;
 }
 #fixedBlurb{
- // border: solid orange 1px;
   width: 400px;
   margin-top: -370px;
   margin-left: 400px;
@@ -158,18 +151,17 @@ p {
 #red{
   color:#8A0829;
 }
-/*
-
-#mp{
-//border:dashed aqua 1px;
-  height:1400px;
-  width:3700px;
-}
-*/
 #aqua{
   color:#00BFFF;
 }
 
 #orange{
   color: #EE9014;
+}
+
+#extraInfo{
+  //border: solid blue 1px;
+  margin-top: 20px;
+  width:400px;
+  height:300px;
 }

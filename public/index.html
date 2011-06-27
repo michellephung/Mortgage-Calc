@@ -19,7 +19,7 @@
           </span>
           <span>interest rate (%): 
             <input class="txt" id="interestBox" type="number" value="5" />
-            <input class="slider" id="interestSlider" type="range" value="5" min="1" max="14"/>
+               <input class="slider" id="interestSlider" type="range" value="5" min="1" max="14"/>
           </span>
           <span>term (in years):   
             <input class="txt"id="termBox" type="number" value="30"/>
@@ -27,26 +27,27 @@
           </span>
           <div class="payExtra">
         what if you paid $ <input class="txt"id="extraPay" type="number" value="0  "/>extra per month?
-        <p id="extraInfo"></p>
+        
         
       </div>
-
+      
         </div>
-      </form>
+      </form  > 
       <div class="onScreen"> 
-        <div >Fixed Monthly Payment:<span id="pay">$$$</span></div>
-        <div > Total Amount Paid:<span id="totalPaid">$$$</span></div>
+        <div >Fixed Monthly Payment:<span class="calc" id="pay">$$$</span></div>
+        <div > Total Amount Paid:<span class="calc" id="totalPaid">$$$</span></div>
+        <div id="extraInfo"></div>
       </div> 
      
      
     </div>
-    <div id="Intro"><span class="title">Instructions:</span><br>This is a mortgage calculator. You can type in or use the sliders to set the amounts that you plan to borrow from the bank, at what rate, and for how long, and the calculator will determine how much your monthly payments will be. These charts will show you the amount of principle you are paying in relation to the amount of that interest accrues. Scroll right to see more charts. </div>
+    <div id="instructions"><span class="title">Instructions:</span><br>This is a mortgage calculator. You can type in or use the sliders to set the amounts that you plan to borrow from the bank, at what rate, and for how long, and the calculator will determine how much your monthly payments will be. These charts will show you the amount of principle you are paying in relation to the amount of that interest accrues. Scroll right to see more charts. </div>
     
   
    
     <div id="pieSection">
       <div  id="pie"></div>
-      <div id="explainPie"><span class="title">Pie Chart</span><br>This pie chart represents the total amount of the loan, which means the principle plus interest. Over the life of the loan, you will pay the original <span id="piePrinciple">$<span id="pieAmountP">$$$</span> principle</span>, plus an additional <span id="pieInterest">$<span id="pieAmountI">$$$</span> in interest.</span></div>
+      <div id="explainPie"><span class="title">Pie Chart</span><br>The pie chart in the center represents the total amount of the loan, which means the principle plus interest. Over the life of the loan, you will pay the original <span id="piePrinciple">$<span id="pieAmountP">$$$</span> principle</span>, plus an additional <span id="pieInterest">$<span id="pieAmountI">$$$</span> in interest.</span></div>
    </div>
     
    <div id="monthSection"> 
