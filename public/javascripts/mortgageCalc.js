@@ -52,7 +52,7 @@ var MortgageCalculator= function(){
  this.extra =$('#extraPay');
   this.extraInfo = $('#extraInfo');
   
- var principleColor="#0000FF";
+ var principleColor="#2E64FE";
  var interestColor="#A901DB"; 
   
   this.initialize = function(){ 
@@ -438,45 +438,81 @@ var MortgageCalculator= function(){
      var totalLabelL=pie.text(leftX, leftY+screenSizedL+50, "Total: $"+total.toFixed(0));      
        totalLabelL.attr("font-family","Arial Rounded MT Bold");
        totalLabelL.attr("font-size",20);
-     var totalLabelR=pie.text(rightX, rightY+screenSizedR+50, "Total: $"+total.toFixed(0));      
+     var totalLabelR=pie.text(rightX, rightY+screenSizedR+50, "Total: $"+extraTotal.toFixed(0));      
        totalLabelR.attr("font-family","Arial Rounded MT Bold");
        totalLabelR.attr("font-size",20);   
        
               
      if(screenSizedL>75){
-       
-      
       var pLabelL = pie.text(leftX, leftY-(screenSizedL*0.6), "Principle:\n$"+loanAmount);  
        pLabelL.attr("font-family","Arial Rounded MT Bold");
        pLabelL.attr("font-size",16);   
        
-      var iLabelL = pie.text(leftX, leftY+(screenSizedL*0.6), "Interest:\n$"+totalInterest. toFixed(0));     
+      var iLabelL = pie.text(leftX, leftY+(screenSizedL*0.6), "Interest:\n$"+totalInterest.toFixed(0));     
        iLabelL.attr("font-family","Arial Rounded MT Bold");
        iLabelL.attr("font-size",16); 
      }
      else{
-     
-//-----------------------------------------------------------------------------------------------------------------------------------
-     
-      var indicatePL = pie.path("M"+leftX+" "+(leftY-screenSizedL)+" l0 -10  l-30 0" );
-      
-     
+      var indicatePL = pie.path("M"+leftX+" "+(leftY-screenSizedL)+" l0 -10  l-30 0" ); //PL means principle Left
+      var indicateIL = pie.path("M"+leftX+" "+(leftY+screenSizedL)+" l0 10  l-30 0" );  
+      if(screenSizedL>20 ){
+        var labelPL = pie.text(leftX-70,leftY-screenSizedL-10,"Principle:\n$"+loanAmount);
+          labelPL.attr("font-family","Arial Rounded MT Bold");
+          labelPL.attr("font-size",16); 
+        var labelIL = pie.text(leftX-75, leftY+screenSizedL, "Interest:\n$"+totalInterest.toFixed(0));
+          labelIL.attr("font-family","Arial Rounded MT Bold");
+          labelIL.attr("font-size",16);
+      }
+      else{
+        var labelPL = pie.text(leftX-90,leftY-screenSizedL-10,"Principle:$ "+loanAmount);
+          labelPL.attr("font-family","Arial Rounded MT Bold");
+          labelPL.attr("font-size",14); 
+        var labelIL = pie.text(leftX-95, leftY+screenSizedL+10, "Interest:$ "+totalInterest.toFixed(0));  
+          labelIL.attr("font-family","Arial Rounded MT Bold");
+          labelIL.attr("font-size",14);
+      }
+       
+        
+        
      }
      
-      
-     if(screenSizedR>75){ 
-      var totalLabelR=pie.text(rightX, rightY+screenSizedR+50, "Total: $"+total.toFixed(0));      
-       totalLabelR.attr("font-family","Arial Rounded MT Bold");
-       totalLabelR.attr("font-size",20); 
-      
-      var pLabelR = pie.text(rightX, rightY-(screenSizedR*0.6), "Principle:\n$"+loanAmount);  
+    if(screenSizedR>75){ 
+       var pLabelR = pie.text(rightX, rightY-(screenSizedR*0.6), "Principle:\n$"+loanAmount);  
        pLabelR.attr("font-family","Arial Rounded MT Bold");
        pLabelR.attr("font-size",16);   
        
       var iLabelR = pie.text(rightX, rightY+(screenSizedR*0.6), "Interest:\n$"+totalInterest. toFixed(0));     
        iLabelR.attr("font-family","Arial Rounded MT Bold");
        iLabelR.attr("font-size",16); 
-     }
+     }else{
+        var indicatePR = pie.path("M"+rightX+" "+(rightY-screenSizedR)+" l0 -10  l30 0"); 
+        var indicateIR = pie.path("M"+rightX+" "+(rightY+screenSizedR)+" l0 10  l30 0" );
+
+     
+      if(screenSizedR>20){
+         var labelPR = pie.text(rightX+70,rightY-screenSizedR-10,"Principle:\n$"+loanAmount);
+        labelPR.attr("font-family","Arial Rounded MT Bold");
+        labelPR.attr("font-size",16);
+     
+      var labelIR = pie.text(rightX+75,rightY+screenSizedR+10,"Interest:\n$"+extraPayTotalInterest.toFixed(0));
+        labelIR.attr("font-family","Arial Rounded MT Bold");
+        labelIR.attr("font-size",16);
+      } else{
+          var labelPR = pie.text(rightX+90,rightY-screenSizedR-10,"Principle: $"+loanAmount);
+            labelPR.attr("font-family","Arial Rounded MT Bold");
+            labelPR.attr("font-size",14);
+     
+          var labelIR = pie.text(rightX+95,rightY+screenSizedR+10,"Interest: $"+extraPayTotalInterest.toFixed(0));
+            labelIR.attr("font-family","Arial Rounded MT Bold");
+            labelIR.attr("font-size",14);
+      }
+     
+    }
+     
+     
+      
+      
+      
   }
   
   this.drawFixed = function(){
