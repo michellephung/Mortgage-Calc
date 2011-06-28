@@ -55,6 +55,18 @@ var MortgageCalculator= function(){
  var principleColor="#2E64FE";
  var interestColor="#A901DB"; 
   
+  this.addCommas =function(nStr){
+  	nStr += '';
+  	x = nStr.split('.');
+  	x1 = x[0];
+  	x2 = x.length > 1 ? '.' + x[1] : '';
+  	var rgx = /(\d+)(\d{3})/;
+  	while (rgx.test(x1)) {
+  		x1 = x1.replace(rgx, '$1' + ',' + '$2');
+  	}
+  	return x1 + x2;
+  }
+
   this.initialize = function(){ 
     this.eventListener();   //detects changes in any of the onscreen controls (textboxes/ sliders)
     this.setVariables();
@@ -68,7 +80,7 @@ var MortgageCalculator= function(){
     return loanAmount;  
   }
   
-  //hello
+
   
   this.getRate = function() {
    return ((0.01*interestRate)/12);  
@@ -168,8 +180,8 @@ var MortgageCalculator= function(){
       
       this.setTotal();
       
-      $('#pay').html('$'+fixedMonthlyPayment.toFixed(2)); 
-      $('#totalPaid').html('$'+total.toFixed(2));
+      $('#pay').html('$'+this.addCommas(fixedMonthlyPayment.toFixed(2))); 
+      $('#totalPaid').html('$'+this.addCommas(total.toFixed(2)));
       $('#interestPaid').html('$'+totalInterest.toFixed(2)); 
       
       this.numOfMonths.html(this.getMonths());
@@ -241,7 +253,6 @@ var MortgageCalculator= function(){
       loanAmt.push(loanAmt[n-1]-principle[n-1]);
       interest.push(loanAmt[n]*this.getRate());
       principle.push(fixedMonthlyPayment-interest[n]);
-    //console.log("["+n+"]loanAmt:"+loanAmt[n]+" interest:"+interest[n]+" principle:"+principle[n]);
     }
 
     
@@ -249,15 +260,13 @@ var MortgageCalculator= function(){
   
   this.extraPayTable = function(){
   
-   extraPayP = [];
-   extraPayI = [];
-   extraPayNewP =[];
+    extraPayP = [];
+    extraPayI = [];
+    extraPayNewP =[];
    
     extraPayP = [loanAmount];
     extraPayI = [extraPayP[0]*this.getRate()];
     extraPayNewP= [parseFloat(extraPayP[0])+parseFloat(extraPayI[0])-extraPayPayment];
-    
-    //console.log("principle:"+extraPayP[0]+"  interest:"+extraPayI[0]+"New Principle"+extraPayNewP[0]);
     
     extraPayTotalInterest=extraPayI[0];
     
@@ -267,17 +276,11 @@ var MortgageCalculator= function(){
       extraPayNewP.push(extraPayP[n]+extraPayI[n]-extraPayPayment);
       
      
-          /* console.log("["+n+"] principle:"+extraPayP[n].toFixed(2)+
-                  "  interest:"+extraPayI[n].toFixed(2)+
-                  "  New Principle:"+extraPayNewP[n].toFixed(2));*/
-                  
-      if(n!=this.getMonths()){
-        extraPayTotalInterest=extraPayTotalInterest+extraPayI[n];
-      }
+      if(n!=this.getMonths())        extraPayTotalInterest=extraPayTotalInterest+extraPayI[n];
       if(extraPayNewP[n]<0) break;
     }
-   extraTotal=extraPayTotalInterest+parseFloat(loanAmount);
-   extraPayLastMonth = (extraPayP.length)-1;    
+    extraTotal=extraPayTotalInterest+parseFloat(loanAmount);
+    extraPayLastMonth = (extraPayP.length)-1;    
   
   }
   
@@ -297,7 +300,7 @@ var MortgageCalculator= function(){
       this.extraPayTable();
       
       if(xtra!=0){  //with extra payment
-        this.extraInfo.html("paying $"+parseFloat(extraPayPayment).toFixed(0)+" a month...<br>you would<span style=\"color:yellow;\"> save $"+(totalInterest-extraPayTotalInterest).toFixed(0)+"</span> in interest <br>you would be done in <span style=\"color:yellow;\">"+(extraPayLastMonth/12).toFixed(1)+" years</span>");
+        this.extraInfo.html("paying $"+this.addCommas(parseFloat(extraPayPayment).toFixed(0))+" a month...<br>you would<span style=\"color:yellow;\"> save $"+this.addCommas((totalInterest-extraPayTotalInterest).toFixed(0))+"</span> in interest <br>you would be done in <span style=\"color:yellow;\">"+(extraPayLastMonth/12).toFixed(1)+" years</span>");
      
         
         }
@@ -426,8 +429,8 @@ var MortgageCalculator= function(){
      var i;
      
      
-     this.pieAmountP.html(parseFloat(loanAmount).toFixed(0));
-     this.pieAmountI.html(parseFloat(totalInterest).toFixed(0));
+     this.pieAmountP.html(this.addCommas(parseFloat(loanAmount).toFixed(0)));
+     this.pieAmountI.html(this.addCommas(parseFloat(totalInterest).toFixed(0)));
      
      this.piePrinciple.css("color",principleColor);
      this.pieInterest.css("color",interestColor);
@@ -435,20 +438,20 @@ var MortgageCalculator= function(){
       
      var extraPie = pie.g.piechart(rightX,rightY, screenSizedR, [loanAmount/extraTotal, extraPayTotalInterest/extraTotal]);
             
-     var totalLabelL=pie.text(leftX, leftY+screenSizedL+50, "Total: $"+total.toFixed(0));      
+     var totalLabelL=pie.text(leftX, leftY+screenSizedL+50, "Total: $"+this.addCommas(total.toFixed(0)));      
        totalLabelL.attr("font-family","Arial Rounded MT Bold");
        totalLabelL.attr("font-size",20);
-     var totalLabelR=pie.text(rightX, rightY+screenSizedR+50, "Total: $"+extraTotal.toFixed(0));      
+     var totalLabelR=pie.text(rightX, rightY+screenSizedR+50, "Total: $"+this.addCommas(extraTotal.toFixed(0)));      
        totalLabelR.attr("font-family","Arial Rounded MT Bold");
        totalLabelR.attr("font-size",20);   
        
               
      if(screenSizedL>75){
-      var pLabelL = pie.text(leftX, leftY-(screenSizedL*0.6), "Principle:\n$"+loanAmount);  
+      var pLabelL = pie.text(leftX, leftY-(screenSizedL*0.6), "Principle:\n$"+this.addCommas(loanAmount));  
        pLabelL.attr("font-family","Arial Rounded MT Bold");
        pLabelL.attr("font-size",16);   
        
-      var iLabelL = pie.text(leftX, leftY+(screenSizedL*0.6), "Interest:\n$"+totalInterest.toFixed(0));     
+      var iLabelL = pie.text(leftX, leftY+(screenSizedL*0.6), "Interest:\n$"+this.addCommas(totalInterest.toFixed(0)));     
        iLabelL.attr("font-family","Arial Rounded MT Bold");
        iLabelL.attr("font-size",16); 
      }
@@ -456,18 +459,18 @@ var MortgageCalculator= function(){
       var indicatePL = pie.path("M"+leftX+" "+(leftY-screenSizedL)+" l0 -10  l-30 0" ); //PL means principle Left
       var indicateIL = pie.path("M"+leftX+" "+(leftY+screenSizedL)+" l0 10  l-30 0" );  
       if(screenSizedL>20 ){
-        var labelPL = pie.text(leftX-70,leftY-screenSizedL-10,"Principle:\n$"+loanAmount);
+        var labelPL = pie.text(leftX-70,leftY-screenSizedL-10,"Principle:\n$"+this.addCommas(loanAmount));
           labelPL.attr("font-family","Arial Rounded MT Bold");
           labelPL.attr("font-size",16); 
-        var labelIL = pie.text(leftX-75, leftY+screenSizedL, "Interest:\n$"+totalInterest.toFixed(0));
+        var labelIL = pie.text(leftX-75, leftY+screenSizedL, "Interest:\n$"+this.addCommas(totalInterest.toFixed(0)));
           labelIL.attr("font-family","Arial Rounded MT Bold");
           labelIL.attr("font-size",16);
       }
       else{
-        var labelPL = pie.text(leftX-90,leftY-screenSizedL-10,"Principle:$ "+loanAmount);
+        var labelPL = pie.text(leftX-90,leftY-screenSizedL-10,"Principle:$ "+this.addCommas(loanAmount));
           labelPL.attr("font-family","Arial Rounded MT Bold");
           labelPL.attr("font-size",14); 
-        var labelIL = pie.text(leftX-95, leftY+screenSizedL+10, "Interest:$ "+totalInterest.toFixed(0));  
+        var labelIL = pie.text(leftX-95, leftY+screenSizedL+10, "Interest:$ "+this.addCommas(totalInterest.toFixed(0)));  
           labelIL.attr("font-family","Arial Rounded MT Bold");
           labelIL.attr("font-size",14);
       }
@@ -477,11 +480,11 @@ var MortgageCalculator= function(){
      }
      
     if(screenSizedR>75){ 
-       var pLabelR = pie.text(rightX, rightY-(screenSizedR*0.6), "Principle:\n$"+loanAmount);  
+       var pLabelR = pie.text(rightX, rightY-(screenSizedR*0.6), "Principle:\n$"+this.addCommas(loanAmount));  
        pLabelR.attr("font-family","Arial Rounded MT Bold");
        pLabelR.attr("font-size",16);   
        
-      var iLabelR = pie.text(rightX, rightY+(screenSizedR*0.6), "Interest:\n$"+totalInterest. toFixed(0));     
+      var iLabelR = pie.text(rightX, rightY+(screenSizedR*0.6), "Interest:\n$"+this.addCommas(totalInterest. toFixed(0)));     
        iLabelR.attr("font-family","Arial Rounded MT Bold");
        iLabelR.attr("font-size",16); 
      }else{
@@ -490,19 +493,19 @@ var MortgageCalculator= function(){
 
      
       if(screenSizedR>20){
-         var labelPR = pie.text(rightX+70,rightY-screenSizedR-10,"Principle:\n$"+loanAmount);
+         var labelPR = pie.text(rightX+70,rightY-screenSizedR-10,"Principle:\n$"+this.addCommas(loanAmount));
         labelPR.attr("font-family","Arial Rounded MT Bold");
         labelPR.attr("font-size",16);
      
-      var labelIR = pie.text(rightX+75,rightY+screenSizedR+10,"Interest:\n$"+extraPayTotalInterest.toFixed(0));
+      var labelIR = pie.text(rightX+75,rightY+screenSizedR+10,"Interest:\n$"+this.addCommas(extraPayTotalInterest.toFixed(0)));
         labelIR.attr("font-family","Arial Rounded MT Bold");
         labelIR.attr("font-size",16);
       } else{
-          var labelPR = pie.text(rightX+90,rightY-screenSizedR-10,"Principle: $"+loanAmount);
+          var labelPR = pie.text(rightX+90,rightY-screenSizedR-10,"Principle: $"+this.addCommas(loanAmount));
             labelPR.attr("font-family","Arial Rounded MT Bold");
             labelPR.attr("font-size",14);
      
-          var labelIR = pie.text(rightX+95,rightY+screenSizedR+10,"Interest: $"+extraPayTotalInterest.toFixed(0));
+          var labelIR = pie.text(rightX+95,rightY+screenSizedR+10,"Interest: $"+this.addCommas(extraPayTotalInterest.toFixed(0)));
             labelIR.attr("font-family","Arial Rounded MT Bold");
             labelIR.attr("font-size",14);
       }
@@ -606,7 +609,7 @@ var MortgageCalculator= function(){
       payIndicator.attr("stroke", "#FFF");
       payIndicator.attr("stroke-width", 1);
      
-    var payAmount = canvas.text(x-30,y+18 ,"$"+amount );
+    var payAmount = canvas.text(x-30,y+18 ,"$"+this.addCommas(amount));
   };
   
   this.resizeCanvas = function(x, y, canvas){
