@@ -52,6 +52,9 @@ var MortgageCalculator= function(){
  this.extra =$('#extraPay');
   this.extraInfo = $('#extraInfo');
   
+ var principleColor="#0000FF";
+ var interestColor="#A901DB"; 
+  
   this.initialize = function(){ 
     this.eventListener();   //detects changes in any of the onscreen controls (textboxes/ sliders)
     this.setVariables();
@@ -59,6 +62,7 @@ var MortgageCalculator= function(){
      
   }
   
+
   
   this.getLoanAmount = function(){
     return loanAmount;  
@@ -294,7 +298,7 @@ var MortgageCalculator= function(){
       
       if(xtra!=0){  //with extra payment
         this.extraInfo.html("paying $"+parseFloat(extraPayPayment).toFixed(0)+" a month...<br>you would<span style=\"color:yellow;\"> save $"+(totalInterest-extraPayTotalInterest).toFixed(0)+"</span> in interest <br>you would be done in <span style=\"color:yellow;\">"+(extraPayLastMonth/12).toFixed(1)+" years</span>");
-       console.log("difference"+(totalInterest-extraPayTotalInterest));
+     
         
         }
        if(xtra==0){//no extra payment
@@ -340,10 +344,10 @@ var MortgageCalculator= function(){
       var interestVisualM=monthly.rect(spacingH*n+offsetH,start,width,(interest[n]/div) );
       var principleVisualM=monthly.rect(spacingH*n+offsetH,(interest[n]/div)+start+2,width,(principle[n]/div) );
       
-        principleVisualM.attr("fill", "#0000FF");  //blue
+        principleVisualM.attr("fill", principleColor);  
         principleVisualM.attr("stroke", "none");  
         
-        interestVisualM.attr("fill", "#FF0080");   //red
+        interestVisualM.attr("fill", interestColor);   
         interestVisualM.attr("stroke", "none");    
         
     }
@@ -384,10 +388,10 @@ var MortgageCalculator= function(){
       var interestVisualY = yearlyVisual. rect(spacingH*i+offsetH+2,start,width,interestYearlySum/(div*12));
       var principleVisualY = yearlyVisual.rect(spacingH*i+offsetH+2,start+(interestYearlySum/(div*12))+2,width,principleYearlySum/(div*12));
       
-      interestVisualY.attr("fill", "#EE9014"); //orange
+      interestVisualY.attr("fill", interestColor); //orange
       interestVisualY.attr("stroke", "none");
 
-      principleVisualY.attr("fill", "#00BFFF"); //blue
+      principleVisualY.attr("fill", principleColor); //blue
       principleVisualY.attr("stroke", "none"); 
       
                       
@@ -409,8 +413,15 @@ var MortgageCalculator= function(){
   
     
   this.drawPie = function(size){
+  
+    var screenSizedL= size/(div*1800);
+    var screenSizedR= extraTotal/(div*1800);
+    var leftX = 250;
+    var leftY=320;
+    var rightX= 600;
+    var rightY = 320;
     
-     var body = pie.g.piechart(400,320, size/(div*1800),[loanAmount/total, totalInterest/total ]);
+     var body = pie.g.piechart(leftX,leftY, screenSizedL,[loanAmount/total, totalInterest/total ],{colors:[principleColor, interestColor]});
      var p;
      var i;
      
@@ -418,12 +429,54 @@ var MortgageCalculator= function(){
      this.pieAmountP.html(parseFloat(loanAmount).toFixed(0));
      this.pieAmountI.html(parseFloat(totalInterest).toFixed(0));
      
-     this.piePrinciple.css("color","#084B8A");
-     this.pieInterest.css("color","#86B404");
+     this.piePrinciple.css("color",principleColor);
+     this.pieInterest.css("color",interestColor);
    
-      if(this.extra.val()!=0){
-        var extraPie = pie.g.piechart(600,320, extraTotal/(div*1800), [loanAmount/extraTotal, extraPayTotalInterest/extraTotal]);
-      }      
+      
+     var extraPie = pie.g.piechart(rightX,rightY, screenSizedR, [loanAmount/extraTotal, extraPayTotalInterest/extraTotal]);
+            
+     var totalLabelL=pie.text(leftX, leftY+screenSizedL+50, "Total: $"+total.toFixed(0));      
+       totalLabelL.attr("font-family","Arial Rounded MT Bold");
+       totalLabelL.attr("font-size",20);
+     var totalLabelR=pie.text(rightX, rightY+screenSizedR+50, "Total: $"+total.toFixed(0));      
+       totalLabelR.attr("font-family","Arial Rounded MT Bold");
+       totalLabelR.attr("font-size",20);   
+       
+              
+     if(screenSizedL>75){
+       
+      
+      var pLabelL = pie.text(leftX, leftY-(screenSizedL*0.6), "Principle:\n$"+loanAmount);  
+       pLabelL.attr("font-family","Arial Rounded MT Bold");
+       pLabelL.attr("font-size",16);   
+       
+      var iLabelL = pie.text(leftX, leftY+(screenSizedL*0.6), "Interest:\n$"+totalInterest. toFixed(0));     
+       iLabelL.attr("font-family","Arial Rounded MT Bold");
+       iLabelL.attr("font-size",16); 
+     }
+     else{
+     
+//-----------------------------------------------------------------------------------------------------------------------------------
+     
+      var indicatePL = pie.path("M"+leftX+" "+(leftY-screenSizedL)+" l0 -10  l-30 0" );
+      
+     
+     }
+     
+      
+     if(screenSizedR>75){ 
+      var totalLabelR=pie.text(rightX, rightY+screenSizedR+50, "Total: $"+total.toFixed(0));      
+       totalLabelR.attr("font-family","Arial Rounded MT Bold");
+       totalLabelR.attr("font-size",20); 
+      
+      var pLabelR = pie.text(rightX, rightY-(screenSizedR*0.6), "Principle:\n$"+loanAmount);  
+       pLabelR.attr("font-family","Arial Rounded MT Bold");
+       pLabelR.attr("font-size",16);   
+       
+      var iLabelR = pie.text(rightX, rightY+(screenSizedR*0.6), "Interest:\n$"+totalInterest. toFixed(0));     
+       iLabelR.attr("font-family","Arial Rounded MT Bold");
+       iLabelR.attr("font-size",16); 
+     }
   }
   
   this.drawFixed = function(){
@@ -462,10 +515,10 @@ var MortgageCalculator= function(){
                                         width,
                                         prin);
      
-      interestVisualY.attr("fill", "#8904B1"); //purple
+      interestVisualY.attr("fill", interestColor); 
       interestVisualY.attr("stroke", "none");
 
-      principleVisualY.attr("fill", "#01DFA5"); //blue
+      principleVisualY.attr("fill", principleColor); 
       principleVisualY.attr("stroke", "none"); 
      
       h=intr+prin+2;

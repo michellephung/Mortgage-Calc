@@ -144,21 +144,18 @@ p {
   margin-left: 400px;
 }
 
+.princpleColor{
+
+ color: #0000FF;
+}
+
+.interestColor{
+  color:#A901DB;
+}
+
 #blue{
   color: #0000FF;
 }
-
-#red{
-  color:#8A0829;
-}
-#aqua{
-  color:#00BFFF;
-}
-
-#orange{
-  color: #EE9014;
-}
-
 #extraInfo{
   //border: solid blue 1px;
   margin-top: 20px;
