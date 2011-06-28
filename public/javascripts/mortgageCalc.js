@@ -50,7 +50,9 @@ var MortgageCalculator= function(){
  var monthLength;
  
  this.extra =$('#extraPay');
-  this.extraInfo = $('#extraInfo');
+ this.extraInfo = $('#extraInfo');
+ 
+ this.extraAmt = $('#extra');  
   
  var principleColor="#2E64FE";
  var interestColor="#A901DB"; 
@@ -423,6 +425,8 @@ var MortgageCalculator= function(){
     var leftY=320;
     var rightX= 600;
     var rightY = 320;
+    
+    this.extraAmt.html(this.extra.val());
     
      var body = pie.g.piechart(leftX,leftY, screenSizedL,[loanAmount/total, totalInterest/total ],{colors:[principleColor, interestColor]});
      var p;
