@@ -18,6 +18,8 @@ var MortgageCalculator= function(){
   this.termSlider = $('#termSlider');
   this.calculate = $('#calculate');
   
+  //this.xAxis = $('#xAxis');  this.yAxis = $('#yAxis');
+  
   var heightBarBox=1270;
   var defaultWidthBarBox=1320;
   var bottomOfChart =  1220; 
@@ -56,6 +58,9 @@ var MortgageCalculator= function(){
   
  var principleColor="#2E64FE";
  var interestColor="#A901DB"; 
+ 
+ var fixedx=840;
+ var fixedy=150;
   
   this.addCommas =function(nStr){
   	nStr += '';
@@ -70,6 +75,7 @@ var MortgageCalculator= function(){
   }
 
   this.initialize = function(){ 
+    this.initSliders();
     this.eventListener();   //detects changes in any of the onscreen controls (textboxes/ sliders)
     this.setVariables();
     this.refreshOnScreenVariables();  
@@ -148,6 +154,17 @@ var MortgageCalculator= function(){
     
   }
   
+ /* this.setFixedXAxis = function(x){
+    fixedx=x;
+    this.refreshOnScreenVariables();
+    
+  }
+  
+  this.setFixedYAxis = function(y){
+    fixedy = y;
+    this.refreshOnScreenVariables();
+  }*/
+  
   //create an amortization schedule in array form (after initialize() )
   var loanAmt=[loanAmount];
   var interest=[loanAmount*this.getRate()];
@@ -176,8 +193,8 @@ var MortgageCalculator= function(){
       this.months.val(years);
        
       
-      this.loanSlider.val(loanAmount);
-      this.interestSlider.val(interestRate);
+      this.loanSlider.slider("option","value",loanAmount);
+      this.interestSlider.slider("option", "value",interestRate);
       this.termSlider.val(years);
       
       this.setTotal();
@@ -205,19 +222,59 @@ var MortgageCalculator= function(){
        
   }
   
+  this.initSliders = function(){
+    this.loanSlider.slider({     
+      min: 1000,
+      max: 2000000,
+      value: 700000    
+    });
+    
+    this.loanSlider.bind('slide', function(){
+      self.setLoanAmount(self.loanSlider.slider("option","value"));
+    });
+    
+     this.interestSlider.slider({
+      min:1,
+      max:14,
+      value: 5
+     
+     });
+     
+     this.interestSlider.bind('slide', function(){ self.setInterestRate(self.interestSlider.slider("option","value"));}); 
+      
+     this.termSlider.slider({
+      min:15,
+      max:50,
+      value:30
+     });
+     
+     this.termSlider.bind('slide', function(){self.setYears(self.termSlider.slider("option", "value"));} );
+     
+    /* this.xAxis.slider({
+      min:200,
+      max:840, 
+      value:840,
+      slide: function(event, ui){ self.setFixedXAxis( self.xAxis.slider("option","value")); }
+     });
+     
+     this.yAxis.slider({
+      min:150,
+      max:700,
+      value:150,
+      orientation: 'vertical',
+      slide: function(event, ui){self.setFixedYAxis( self.xAxis.slider("option","value"));}
+     });*/
   
+  } 
   
   this.eventListener = function(){
     this.calculate.click(function(){
       self.setVariables();
     });
       
-    this.loanSlider.change(function(){
-      self.setLoanAmount(parseFloat(self.loanSlider.val()));
-      
-    }); 
+
     this.loan.change(function(){
-      self.setLoanAmount(parseFloat(self.loan.val()));  
+      self.setLoanAmount(parseFloat(self.loan.val())); 
     });
 
     this.interestSlider.change(function(){
@@ -227,10 +284,6 @@ var MortgageCalculator= function(){
     this.rate.change(function(){
      self.setInterestRate(parseFloat(self.rate.val()));
     }) ;  
-     
-    this.termSlider.change(function(){
-      self.setYears(parseFloat(self.termSlider.val()));
-    });
      
     this.months.change(function(){
       self.setYears(parseFloat(self.months.val()));
@@ -418,7 +471,7 @@ var MortgageCalculator= function(){
   
     
   this.drawPie = function(size){
-  
+  /*
     var screenSizedL= size/(div*1800);
     var screenSizedR= extraTotal/(div*1800);
     var leftX = 250;
@@ -518,15 +571,15 @@ var MortgageCalculator= function(){
      
      
       
-      
+     */ 
       
   }
   
   this.drawFixed = function(){
     
     var yearlyAmount=12*fixedMonthlyPayment; 
-    var rhsOfBox = 840;
-    var height =150;
+    var rhsOfBox = fixedx;
+    var height =fixedy;
      
     var width = (rhsOfBox-(years*3))/ (years);
     var spacingH=width+3;
@@ -569,7 +622,8 @@ var MortgageCalculator= function(){
     
     height = spacingV+h;  
      
-    this.box(rhsOfBox+offsetH+13,390, fixedY);
+    //this.box(rhsOfBox+offsetH+13,390, fixedY);// moving box
+    this.box(953,390, fixedY);//static box
     this.termIndicator((years*spacingH)+offsetH-2,height,fixedY);
     this.yAxisLabel(80 ,"yearly payment", fixedY);
     this.xAxisLabel(210, "time (years)", fixedY);  

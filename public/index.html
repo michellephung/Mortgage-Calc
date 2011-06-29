@@ -5,8 +5,11 @@
 
   </style>
     <link rel="stylesheet" href="stylesheets/style.css">
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>    
-    <title></title>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
+    <link type="text/css" href="stylesheets/jquery-ui-1.8.13.custom.css" rel="Stylesheet" />	
+    <script type="text/javascript" src="javascripts/jquery-ui-1.8.13.custom.min.js"></script>
+    <link rel="stylesheet" href="stylesheets/style.css">    
+    <title>Blah Blah</title>
   </head>
   <body>
     <div id="mp">
@@ -15,15 +18,15 @@
         <div class="inputs">
           <span>loan amount($):    
             <input class="txt" id="loanBox" type="number" value="700000" />
-            <input class="slider" id="loanSlider" type="range" value="700000" min="1000" max="2000000"/>
+            <div class="slider" id="loanSlider" ></div> 
           </span>
           <span>interest rate (%): 
             <input class="txt" id="interestBox" type="number" value="5" />
-               <input class="slider" id="interestSlider" type="range" value="5" min="1" max="14"/>
+               <div class="slider" id="interestSlider"></div><!__type="range" value="5" min="1" max="14"/>
           </span>
           <span>term (in years):   
             <input class="txt"id="termBox" type="number" value="30"/>
-            <input class="slider" id="termSlider" type="range" value="30" min="15" max="50"/>
+            <div class="slider" id="termSlider"></div> <!ype="range" value="30" min="15" max="50"/>
           </span>
           <div class="payExtra">
         what if you paid $ <input class="txt"id="extraPay" type="number" value="0  "/>extra per month?
@@ -63,8 +66,11 @@
    <div  id="fixedSection">
       <div  id="fixedYearlyPaymentVisual"></div> 
       <div id="fixedBlurb"><span class="title">Fixed Area Bar Graph (Years)</span><br>This bar graph is fixed. This means that it always remains the same size and doesn't expand or shrink depending on the amounts above.  Instead, the widths of the columns change, changing the scale of the graph to fit. </div>
+        <div class="axis" id="yAxis"></div><div class="axis" id="xAxis"></div>
     </div>
-   
+  
+     
+    
    <!-- <script type="text/javascript" scr="public/javascripts/jQ.js"></script>  -->
    
    <script type="text/javascript" src="javascripts/raphael.js"></script>	

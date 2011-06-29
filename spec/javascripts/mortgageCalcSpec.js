@@ -50,8 +50,8 @@ describe('Mortgage Calculator', function(){
   describe('functions', function(){
     it('calculates how many months in term',function(){
       expect(this.calc.getMonths()).toEqual(360);
-      this.calc.setYears(1);
-      expect(this.calc.getMonths()).toEqual(12);
+      this.calc.setYears(15);
+      expect(this.calc.getMonths()).toEqual(180);
     });
     
     it('calculates interest rate',function(){
@@ -110,22 +110,23 @@ describe('Mortgage Calculator', function(){
   describe('sliders', function(){
     it('calculates payment when loan slider changes',function(){
       expect(parseFloat(this.calc.getFixedMonthlyPayment().toFixed(0))).toEqual(537);
-      this.calc.loanSlider.val(234567);
-      this.calc.loanSlider.change();
+      this.calc.loanSlider.slider("option", "value", 234567);
+      this.calc.loanSlider.trigger('slide');
       expect(parseFloat(this.calc.getFixedMonthlyPayment().toFixed(0))).toEqual(1259);
     });
     
     it('calculates payment when interest slider changes',function(){
       expect(parseFloat(this.calc.getFixedMonthlyPayment().toFixed(0))).toEqual(537);
-      this.calc.interestSlider.val(6);
-      this.calc.interestSlider.change();
+      this.calc.interestSlider.slider("option", "value",6);
+      this.calc.interestSlider.trigger('slide');
       expect(parseFloat(this.calc.getFixedMonthlyPayment().toFixed(0))).toEqual(600);
     });
     
     it('calculates payment when term slider changes',function(){
       expect(parseFloat(this.calc.getFixedMonthlyPayment().toFixed(0))).toEqual(537);
-      this.calc.termSlider.val(15);
-      this.calc.termSlider.change();
+      console.log(this.calc.getFixedMonthlyPayment().toFixed(0));
+      this.calc.termSlider.slider("option","value",15 );
+      this.calc.termSlider.trigger('slide');
       expect(parseFloat(this.calc.getFixedMonthlyPayment().toFixed(0))).toEqual(791);
     
     });
@@ -133,22 +134,22 @@ describe('Mortgage Calculator', function(){
     
     it('updates text box when loan slider changes',function(){
       expect(parseFloat(this.calc.loan.val())).toEqual(100000);
-      this.calc.loanSlider.val(234567);
-      this.calc.loanSlider.change();
+      this.calc.loanSlider.slider("option", "value",234567);
+      this.calc.loanSlider.trigger('slide');;
       expect(parseFloat(this.calc.loan.val())).toEqual(234567);
     });
   
     it('updates text box when interest slider changes',function(){
       expect(parseFloat(this.calc.rate.val())).toEqual(5);
-      this.calc.interestSlider.val(13);
-      this.calc.interestSlider.change();
+      this.calc.interestSlider.slider("option","value",13);
+      this.calc.interestSlider.trigger('slide');;
       expect(parseFloat(this.calc.rate.val())).toEqual(13);
     });
   
     it('updates text box when term slider changes',function(){
       expect(parseFloat(this.calc.months.val())).toEqual(30);
-      this.calc.termSlider.val(45);
-      this.calc.termSlider.change();
+      this.calc.termSlider.slider("option","value",45);
+      this.calc.termSlider.trigger('slide');;
       expect(parseFloat(this.calc.months.val())).toEqual(45);
     });
 
@@ -162,10 +163,10 @@ describe('Mortgage Calculator', function(){
     expect(this.calc.getLoanAmount()).toEqual(2000000);
     });
     
-    it('rate amount value cannot be over 15',function(){
+    it('rate amount value cannot be over 14',function(){
     expect(parseFloat(this.calc.getRate().toFixed(4))).toEqual(0.0042);
-    this.calc.setInterestRate(200);
-    expect(parseFloat(this.calc.getRate().toFixed(4))).toEqual(0.0125);
+    this.calc.setInterestRate(200); //will reset to 14
+    expect(parseFloat(this.calc.getRate().toFixed(4))).toEqual(0.0117);
     });
     
     it('term amount value cannot be over 50',function(){
