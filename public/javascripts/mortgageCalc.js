@@ -471,7 +471,7 @@ var MortgageCalculator= function(){
   
     
   this.drawPie = function(size){
-  /*
+
     var screenSizedL= size/(div*1800);
     var screenSizedR= extraTotal/(div*1800);
     var leftX = 250;
@@ -571,7 +571,7 @@ var MortgageCalculator= function(){
      
      
       
-     */ 
+     
       
   }
   
